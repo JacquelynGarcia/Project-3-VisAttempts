@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "stylesheet" href = 'style.css'>
+    <script type = 'module' src = 'global.js'></script>
+    <title>Document</title>
+</head>
+<body>
+    <h1>Title</h1>
+
+    <input
+        id="searchBar"
+        type="search"
+        aria-label="Search mouse"
+        placeholder="🔍 Search mouse…"
+    />
+
+    <h3>Time Selector</h3>
+    <ul id = 'time-selector'>
+        <li>
+            <input type="radio" id="option1-time" name="time" value="24-hour" checked>
+            <label for="option1-time">24-Hour Frame</label>
+        </li>
+        <li>
+            <input type="radio" id="option2-time" name="time" value="14-day">
+            <label for="option2-time">14-Day Period</label>
+        </li>
+    </ul>
+
+    <h3>Measurement Selector</h3>
+    <ul id = 'measurement-selector'>
+        <li><input id = 'activity' type="checkbox" checked> Activity Level</li>
+        <li><input id = 'temperature' type="checkbox" checked> Temperature</li>
+    </ul>
+
+    <h3>Mouse Selector</h3>
+    <ul id = 'mouse-selector'>
+        <li><input id = 'f1' type="checkbox" checked> Female #1</li>
+        <li><input id = 'f2' type="checkbox" checked> Female #2</li>
+        <li><input id = 'f3' type="checkbox" checked> Female #3</li>
+        <li><input id = 'f4' type="checkbox" checked> Female #4</li>
+        <li><input id = 'f5' type="checkbox" checked> Female #5</li>
+        <li><input id = 'f6' type="checkbox" checked> Female #6</li>
+        <li><input id = 'f7' type="checkbox" checked> Female #7</li>
+        <li><input id = 'f8' type="checkbox" checked> Female #8</li>
+        <li><input id = 'f9' type="checkbox" checked> Female #9</li>
+        <li><input id = 'f10' type="checkbox" checked> Female #10</li>
+        <li><input id = 'f11' type="checkbox" checked> Female #11</li>
+        <li><input id = 'f12' type="checkbox" checked> Female #12</li>
+        <li><input id = 'f13' type="checkbox" checked> Female #13</li>
+    </ul>
+
+    <div id="chart"></div>
+</body>
+</html>
