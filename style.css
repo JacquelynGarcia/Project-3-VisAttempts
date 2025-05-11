@@ -12,3 +12,132 @@ body {
     padding: 0.25em;
     font-size: 20px;
 }
+
+#mouse-selector {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-family: sans-serif;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* Flexible columns */
+    gap: 8px;
+    max-width: 100%; /* Adjust as needed */
+}
+
+#mouse-selector li {
+    margin: 0;
+    padding: 0;
+}
+
+#mouse-selector li label {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#mouse-selector li label:hover {
+    background-color: #e0e0e0;
+}
+
+#mouse-selector input[type="checkbox"] {
+    margin-right: 8px;
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.parent {
+    display: flex;
+    width: 100%;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+  
+.child {
+    padding-right: 20px;
+    flex: 1;
+    min-width: 150px;
+}
+
+.child h4 {
+    text-align: center;
+}
+  
+.child:first-child {
+    margin-right: 20px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    line-height: 1.1;
+    text-wrap: balance;
+}
+  
+/* Table styling */
+table {
+    max-width: 400px;
+    border-collapse: collapse; /* Ensure borders are joined without spaces */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for table */
+    border-radius: 8px;
+    overflow: hidden; /* Ensure rounded corners are applied */
+    margin-left: auto;
+    margin-right: auto;
+}
+  
+/* Table header styling */
+th {
+    background-color: #f4f4f4; /* Light background for headers */
+    color: #333; /* Dark text color */
+    padding: 12px;
+    text-align: left;
+    font-weight: bold;
+    border-bottom: 2px solid #ddd; /* Border under header */
+}
+  
+td {
+    background-color: #fff;
+    padding: 10px 12px;
+    color: #555;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+    transition: background-color 0.2s ease; /* Smooth transition on hover */
+}
+  
+tr:nth-child(even) td {
+    background-color: #f9f9f9;
+}
+  
+input[type="checkbox"] {
+    margin-right: 8px;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+td label {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+td label:hover {
+    background-color: #e0e0e0;
+}
+  
+#pink th {
+    background-color: #f7c0c0; /* Light pink header for the pink table */
+}
+  
+#green th {
+    background-color: #c8f7c8; /* Light green header for the green table */
+}
+  
+#pink td {
+    color: #e86c6c; /* Pink text for the pink table */
+}
+  
+#green td {
+    color: #4caf50; /* Green text for the green table */
+}

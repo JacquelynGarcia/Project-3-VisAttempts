@@ -17,40 +17,101 @@
         placeholder="🔍 Search mouse…"
     />
 
-    <h3>Time Selector</h3>
-    <ul id = 'time-selector'>
-        <li>
-            <input type="radio" id="option1-time" name="time" value="24-hour" checked>
-            <label for="option1-time">24-Hour Frame</label>
-        </li>
-        <li>
-            <input type="radio" id="option2-time" name="time" value="14-day">
-            <label for="option2-time">14-Day Period</label>
-        </li>
-    </ul>
-
-    <h3>Measurement Selector</h3>
-    <ul id = 'measurement-selector'>
-        <li><input id = 'activity' type="checkbox" checked> Activity Level</li>
-        <li><input id = 'temperature' type="checkbox" checked> Temperature</li>
-    </ul>
-
     <h3>Mouse Selector</h3>
     <ul id = 'mouse-selector'>
-        <li><input id = 'f1' type="checkbox" checked> Female #1</li>
-        <li><input id = 'f2' type="checkbox" checked> Female #2</li>
-        <li><input id = 'f3' type="checkbox" checked> Female #3</li>
-        <li><input id = 'f4' type="checkbox" checked> Female #4</li>
-        <li><input id = 'f5' type="checkbox" checked> Female #5</li>
-        <li><input id = 'f6' type="checkbox" checked> Female #6</li>
-        <li><input id = 'f7' type="checkbox" checked> Female #7</li>
-        <li><input id = 'f8' type="checkbox" checked> Female #8</li>
-        <li><input id = 'f9' type="checkbox" checked> Female #9</li>
-        <li><input id = 'f10' type="checkbox" checked> Female #10</li>
-        <li><input id = 'f11' type="checkbox" checked> Female #11</li>
-        <li><input id = 'f12' type="checkbox" checked> Female #12</li>
-        <li><input id = 'f13' type="checkbox" checked> Female #13</li>
+        <li><label for = 'f1'><input id = 'f1' type="checkbox" checked> Female #01</label></li>
+        <li><label for = 'f2'><input id = 'f2' type="checkbox" checked> Female #02</label></li>
+        <li><label for = 'f3'><input id = 'f3' type="checkbox" checked> Female #03</label></li>
+        <li><label for = 'f4'><input id = 'f4' type="checkbox" checked> Female #04</label></li>
+        <li><label for = 'f5'><input id = 'f5' type="checkbox" checked> Female #05</label></li>
+        <li><label for = 'f6'><input id = 'f6' type="checkbox" checked> Female #06</label></li>
+        <li><label for = 'f7'><input id = 'f7' type="checkbox" checked> Female #07</label></li>
+        <li><label for = 'f8'><input id = 'f8' type="checkbox" checked> Female #08</label></li>
+        <li><label for = 'f9'><input id = 'f9' type="checkbox" checked> Female #09</label></li>
+        <li><label for = 'f10'><input id = 'f10' type="checkbox" checked> Female #10</label></li>
+        <li><label for = 'f11'><input id = 'f11' type="checkbox" checked> Female #11</label></li>
+        <li><label for = 'f12'><input id = 'f12' type="checkbox" checked> Female #12</label></li>
+        <li><label for = 'f13'><input id = 'f13' type="checkbox" checked> Female #13</label></li>
     </ul>
+
+    <h3>Day Selector</h3>
+    <div class = "parent">
+        <div class = "child" id = "first-child">
+            <h4>Pink Line</h4>
+            <table id="pink">
+                <thead>
+                    <tr>
+                        <th>Proestrus</th>
+                        <th>Estrus</th>
+                        <th>Metestrus</th>
+                        <th>Diestrus</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><label for = 'p1'><input type="checkbox" id="p1">Day 01</label></td>
+                        <td><label for = 'p2'><input type="checkbox" id="p2">Day 02</label></td>
+                        <td><label for = 'p3'><input type="checkbox" id="p3">Day 03</label></td>
+                        <td><label for = 'p4'><input type="checkbox" id="p4">Day 04</label></td>
+                    </tr>
+                    <tr>
+                        <td><label for = 'p5'><input type="checkbox" id="p5">Day 05</label></td>
+                        <td><label for = 'p6'><input type="checkbox" id="p6">Day 06</label></td>
+                        <td><label for = 'p7'><input type="checkbox" id="p7">Day 07</label></td>
+                        <td><label for = 'p8'><input type="checkbox" id="p8">Day 08</label></td>
+                    </tr>
+                    <tr>
+                        <td><label for = 'p9'><input type="checkbox" id="p9">Day 09</label></td>
+                        <td><label for = 'p10'><input type="checkbox" id="p10">Day 10</label></td>
+                        <td><label for = 'p11'><input type="checkbox" id="p11">Day 11</label></td>
+                        <td><label for = 'p12'><input type="checkbox" id="p12">Day 12</label></td>
+                    </tr>
+                    <tr>
+                        <td><label for = 'p13'><input type="checkbox" id="p13">Day 13</label></td>
+                        <td><label for = 'p14'><input type="checkbox" id="p14">Day 14</label></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class = "child">
+            <h4>Green Line</h4>
+            <table id="green">
+                <thead>
+                    <tr>
+                        <th>Proestrus</th>
+                        <th>Estrus</th>
+                        <th>Metestrus</th>
+                        <th>Diestrus</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><label for = 'g1'><input type="checkbox" id="g1">Day 01</label></td>
+                        <td><label for = 'g2'><input type="checkbox" id="g2">Day 02</label></td>
+                        <td><label for = 'g3'><input type="checkbox" id="g3">Day 03</label></td>
+                        <td><label for = 'g4'><input type="checkbox" id="g4">Day 04</label></td>
+                    </tr>
+                    <tr>
+                        <td><label for = 'g5'><input type="checkbox" id="g5">Day 05</label></td>
+                        <td><label for = 'g6'><input type="checkbox" id="g6">Day 06</label></td>
+                        <td><label for = 'g7'><input type="checkbox" id="g7">Day 07</label></td>
+                        <td><label for = 'g8'><input type="checkbox" id="g8">Day 08</label></td>
+                    </tr>
+                    <tr>
+                        <td><label for = 'g9'><input type="checkbox" id="g9">Day 09</label></td>
+                        <td><label for = 'g10'><input type="checkbox" id="g10">Day 10</label></td>
+                        <td><label for = 'g11'><input type="checkbox" id="g11">Day 11</label></td>
+                        <td><label for = 'g12'><input type="checkbox" id="g12">Day 12</label></td>
+                    </tr>
+                    <tr>
+                        <td><label for = 'g13'><input type="checkbox" id="g13">Day 13</label></td>
+                        <td><label for = 'g14'><input type="checkbox" id="g14">Day 14</label></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
     <div id="chart"></div>
 </body>
