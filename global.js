@@ -218,19 +218,23 @@ function renderScatterplot(data){
         .append('svg')
         .attr('viewBox', `0 0 ${width} ${height}`)
         .style('overflow', 'visible');
-     
+
     const dots = svg.append('g').attr('class', 'dots');
     const tooltip = d3.select("#tooltip");
-    svg.selectAll("circle")
+    dots.selectAll("circle")
         .data(data[0])
         .join('circle')
         .attr("cx", d => xScale(d.Act))
-        .attr("cy", d => yScale(d.Temp)) 
-        .attr("r", 5) 
+        .attr("cy", d => yScale(d.Temp))
+        .attr("r", 5)
         .attr("fill", d => mouseColorMap[d.id])
         .style('fill-opacity', 0.7)
-        .on('mouseenter', (event, d) => {
-            d3.select(event.currentTarget).style('fill-opacity', 1);
+        .on('mouseenter', function(event, d) {
+            d3.select(this)
+                .transition()
+                .duration(150)
+                .attr("r", 7)
+                .style('fill-opacity', 1);
             tooltip.transition().duration(200).style("opacity", 0.9);
             tooltip.html(`
                 <strong>Mouse:</strong> ${d.id}<br>
@@ -239,8 +243,12 @@ function renderScatterplot(data){
                 <strong>Activity:</strong> ${d.Act}
             `).style("left", (event.pageX + 10) + "px").style("top", (event.pageY - 28) + "px");
         })
-        .on('mouseleave', (event) => {
-            d3.select(event.currentTarget).style('fill-opacity', 0.7);
+        .on('mouseleave', function(event) {
+            d3.select(this)
+                .transition()
+                .duration(150)
+                .attr("r", 5)
+                .style('fill-opacity', 0.7);
             tooltip.transition().duration(300).style("opacity", 0);
         });
     
