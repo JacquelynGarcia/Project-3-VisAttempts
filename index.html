@@ -8,6 +8,15 @@
     <title>Document</title>
 </head>
 <body>
+    <label for = 'dropbox-select'>
+        Choose Exploration Method:
+        <select id="dropbox-select">
+            <option value="o1" selected>Estrus vs Non-Estrus</option>
+            <option value="o2">Diestrus vs Proestrus</option>
+            <option value="o3">Custom Exploration</option>
+        </select>
+    </label>
+
     <h1>Title</h1>
 
     <input
@@ -114,5 +123,24 @@
     </div>
 
     <div id="chart"></div>
+
+    <div class="control-group">
+        <label for="minuteSlider">Time:</label>
+        <input type="range" id="minuteSlider" min="0" max="1439" value="720" step="1">
+        <span id="minuteLabel">12:00 PM</span>
+    </div>
+
+    <div id="scatterplot"></div>
+    <div id="tooltip" style="
+        position: absolute;
+        opacity: 0;
+        background: white;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        padding: 6px;
+        font-size: 12px;
+        pointer-events: none;
+        box-shadow: 0px 0px 6px rgba(0,0,0,0.1);"
+    ></div>
 </body>
 </html>
