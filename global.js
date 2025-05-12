@@ -193,6 +193,25 @@ function renderLinePlot(data){
                 .attr("stroke-width", 1)
         );
 
+    /** Brush for temperature plot */
+    const brushTemperature = d3.brushX()
+        .extent([[usableArea2.left, usableArea2.top], [usableArea2.right, usableArea2.bottom]])
+        .on("brush", brushedTemperature);
+    svg.append("g")
+            .attr("class", "brush")
+            .call(brushTemperature);
+        
+    function brushedTemperature(event) {
+        const selection = event.selection;
+        if (selection) {
+            const [x0, x1] = selection.map(xScale2.invert);
+            highlightHeatmap(x0, x1);
+        } else {
+            resetHeatmapHighlighting();
+        }
+    }  
+            
+
     svg.append("g")
         .attr("transform", `translate(0,${usableArea2.bottom})`)
         .call(d3.axisBottom(xScale2).tickFormat(d3.timeFormat("%H:%M")));
@@ -249,25 +268,6 @@ function renderLinePlot(data){
             .attr("stroke", 'green')
             .attr("stroke-width", 2)
             .attr("d", lineTemp);
-
-        /** Brush for temperature plot */
-    const brushTemperature = d3.brushX()
-        .extent([[usableArea2.left, usableArea2.top], [usableArea2.right, usableArea2.bottom]])
-        .on("brush", brushedTemperature);
-    svg.append("g")
-        .attr("class", "brush")
-        .call(brushTemperature);
-    
-    function brushedTemperature(event) {
-        const selection = event.selection;
-        if (selection) {
-            const [x0, x1] = selection.map(xScale2.invert);
-            highlightHeatmap(x0, x1);
-        } else {
-            resetHeatmapHighlighting();
-        }
-    }  
-        
     }
 }
 
