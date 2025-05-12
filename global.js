@@ -115,6 +115,20 @@ function renderLinePlot(data){
         .range([usableArea.left, usableArea.right])
         .nice();
     const yScale = d3.scaleLinear().domain([0, 70]).range([usableArea.bottom, usableArea.top]);
+
+    /* Graph Lines for first line plot */
+    yScale.ticks(13)
+        .forEach(tickValue =>
+            svg.append("line")
+                .attr("class", "grid-line")
+                .attr("x1", usableArea.left)
+                .attr("x2", usableArea.right)
+                .attr("y1", yScale(tickValue))
+                .attr("y2", yScale(tickValue))
+                .attr("stroke", "#eee")
+                .attr("stroke-width", 1)
+        );
+
     svg.append("g")
         .attr("transform", `translate(0,${usableArea.bottom})`)
         .call(d3.axisBottom(xScale).tickFormat(d3.timeFormat("%H:%M")));
@@ -132,6 +146,24 @@ function renderLinePlot(data){
         .attr("x", -height/2)
         .attr("y", 10) // To the left of the y-axis
         .text("Average Activity Level");
+    
+    /* brushing for activity plot */
+    const brushActivity = d3.brushX()
+        .extent([[usableArea.left, usableArea.top], [usableArea.right, usableArea.bottom]])
+        .on("brush", brushedActivity);
+    svg.append("g")
+        .attr("class", "brush")
+        .call(brushActivity);
+
+    function brushedActivity(event) {
+        const selection = event.selection;
+        if (selection) {
+            const [x0, x1] = selection.map(xScale.invert);
+            highlightHeatmap(x0, x1);
+        } else {
+            resetHeatmapHighlighting();
+        }
+    }
 
     const usableArea2 = {
         top: margin.top,
@@ -147,6 +179,20 @@ function renderLinePlot(data){
         .range([usableArea2.left, usableArea2.right])
         .nice();
     const yScale2 = d3.scaleLinear().domain([35, 40]).range([usableArea2.bottom, usableArea2.top]);
+
+    /* Graph Lines for activity plot */
+    yScale2.ticks(9)
+        .forEach(tickValue =>
+            svg.append("line")
+                .attr("class", "grid-line")
+                .attr("x1", usableArea2.left)
+                .attr("x2", usableArea2.right)
+                .attr("y1", yScale2(tickValue))
+                .attr("y2", yScale2(tickValue))
+                .attr("stroke", "#eee")
+                .attr("stroke-width", 1)
+        );
+
     svg.append("g")
         .attr("transform", `translate(0,${usableArea2.bottom})`)
         .call(d3.axisBottom(xScale2).tickFormat(d3.timeFormat("%H:%M")));
@@ -203,6 +249,25 @@ function renderLinePlot(data){
             .attr("stroke", 'green')
             .attr("stroke-width", 2)
             .attr("d", lineTemp);
+
+        /** Brush for temperature plot */
+    const brushTemperature = d3.brushX()
+        .extent([[usableArea2.left, usableArea2.top], [usableArea2.right, usableArea2.bottom]])
+        .on("brush", brushedTemperature);
+    svg.append("g")
+        .attr("class", "brush")
+        .call(brushTemperature);
+    
+    function brushedTemperature(event) {
+        const selection = event.selection;
+        if (selection) {
+            const [x0, x1] = selection.map(xScale2.invert);
+            highlightHeatmap(x0, x1);
+        } else {
+            resetHeatmapHighlighting();
+        }
+    }  
+        
     }
 }
 
