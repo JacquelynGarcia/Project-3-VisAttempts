@@ -327,56 +327,6 @@ function renderLinePlot(data){
         .domain([startOfDay, endOfDay])
         .range([usableArea.left, usableArea.right])
         .nice();
-    const yScale = d3.scaleLinear().domain([0, 70]).range([usableArea.bottom, usableArea.top]);
-
-    /* Graph Lines for first line plot */
-    yScale.ticks(13)
-        .forEach(tickValue =>
-            svg.append("line")
-                .attr("class", "grid-line")
-                .attr("x1", usableArea.left)
-                .attr("x2", usableArea.right)
-                .attr("y1", yScale(tickValue))
-                .attr("y2", yScale(tickValue))
-                .attr("stroke", "#eee")
-                .attr("stroke-width", 1)
-        );
-
-    svg.append("g")
-        .attr("transform", `translate(0,${usableArea.bottom})`)
-        .call(d3.axisBottom(xScale).tickFormat(d3.timeFormat("%H:%M")));
-    svg.append("g")
-        .attr("transform", `translate(${usableArea.left},0)`)
-        .call(d3.axisLeft(yScale));
-    svg.append("text")
-        .attr("text-anchor", "middle")
-        .attr("x", usableArea.left + usableArea.width / 2)
-        .attr("y", height - 5)
-        .text("24-Hour Time (HH:MM)");
-    svg.append("text")
-        .attr("text-anchor", "middle")
-        .attr("transform", `rotate(-90)`)
-        .attr("x", -height/2)
-        .attr("y", 10) // To the left of the y-axis
-        .text("Average Activity Level");
-    
-    /* brushing for activity plot */
-    const brushActivity = d3.brushX()
-        .extent([[usableArea.left, usableArea.top], [usableArea.right, usableArea.bottom]])
-        .on("brush", brushedActivity);
-    svg.append("g")
-        .attr("class", "brush")
-        .call(brushActivity);
-
-    function brushedActivity(event) {
-        const selection = event.selection;
-        if (selection) {
-            const [x0, x1] = selection.map(xScale.invert);
-            highlightHeatmap(x0, x1);
-        } else {
-            resetHeatmapHighlighting();
-        }
-    }
     const yScale = d3.scaleLinear().domain([minAvgAct, maxAvgAct]).range([usableArea.bottom, usableArea.top]);
 
     const usableArea2 = {
@@ -392,57 +342,6 @@ function renderLinePlot(data){
         .domain([startOfDay, endOfDay])
         .range([usableArea2.left, usableArea2.right])
         .nice();
-    const yScale2 = d3.scaleLinear().domain([35, 40]).range([usableArea2.bottom, usableArea2.top]);
-
-    /* Graph Lines for activity plot */
-    yScale2.ticks(9)
-        .forEach(tickValue =>
-            svg.append("line")
-                .attr("class", "grid-line")
-                .attr("x1", usableArea2.left)
-                .attr("x2", usableArea2.right)
-                .attr("y1", yScale2(tickValue))
-                .attr("y2", yScale2(tickValue))
-                .attr("stroke", "#eee")
-                .attr("stroke-width", 1)
-        );
-
-    /** Brush for temperature plot */
-    const brushTemperature = d3.brushX()
-        .extent([[usableArea2.left, usableArea2.top], [usableArea2.right, usableArea2.bottom]])
-        .on("brush", brushedTemperature);
-    svg.append("g")
-            .attr("class", "brush")
-            .call(brushTemperature);
-        
-    function brushedTemperature(event) {
-        const selection = event.selection;
-        if (selection) {
-            const [x0, x1] = selection.map(xScale2.invert);
-            highlightHeatmap(x0, x1);
-        } else {
-            resetHeatmapHighlighting();
-        }
-    }  
-            
-
-    svg.append("g")
-        .attr("transform", `translate(0,${usableArea2.bottom})`)
-        .call(d3.axisBottom(xScale2).tickFormat(d3.timeFormat("%H:%M")));
-    svg.append("g")
-        .attr("transform", `translate(${usableArea2.left},0)`)
-        .call(d3.axisLeft(yScale2));
-    svg.append("text")
-        .attr("text-anchor", "middle")
-        .attr("x", usableArea2.left + usableArea2.width / 2)
-        .attr("y", height - 5)
-        .text("24-Hour Time (HH:MM)");
-    svg.append("text")
-        .attr("text-anchor", "middle")
-        .attr("transform", `rotate(-90)`)
-        .attr("x", -height/2)
-        .attr("y", 5 + width/2) 
-        .text("Average Temperature");
     const yScale2 = d3.scaleLinear().domain([minAvgTemp, maxAvgTemp]).range([usableArea2.bottom, usableArea2.top]);
     
     const lineAct = d3.line()
