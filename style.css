@@ -1,7 +1,7 @@
 body {
     font: 100%/1.5 system-ui;
-    max-width: 125ch; 
-    margin-inline: max(1em, (100% - 125ch) / 2); 
+    max-width: 125ch;
+    margin-inline: max(1em, (100% - 125ch) / 2);
     padding: 10px;
 }
 
@@ -19,7 +19,7 @@ body {
     margin: 0;
     font-family: sans-serif;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* Flexible columns */
+    grid-template-columns: repeat(auto-fit, minmax(85px, 1fr)); /* Flexible columns */
     gap: 8px;
     max-width: 100%; /* Adjust as needed */
 }
@@ -37,6 +37,7 @@ body {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.2s;
+    font-size: 12px;
 }
 
 #mouse-selector li label:hover {
@@ -56,7 +57,7 @@ body {
     flex-wrap: wrap;
     margin-top: 10px;
 }
-  
+
 .child {
     padding-right: 20px;
     flex: 1;
@@ -66,7 +67,7 @@ body {
 .child h4 {
     text-align: center;
 }
-  
+
 .child:first-child {
     margin-right: 20px;
 }
@@ -75,7 +76,7 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 1.1;
     text-wrap: balance;
 }
-  
+
 /* Table styling */
 table {
     max-width: 400px;
@@ -86,7 +87,7 @@ table {
     margin-left: auto;
     margin-right: auto;
 }
-  
+
 /* Table header styling */
 th {
     background-color: #f4f4f4; /* Light background for headers */
@@ -96,7 +97,7 @@ th {
     font-weight: bold;
     border-bottom: 2px solid #ddd; /* Border under header */
 }
-  
+
 td {
     background-color: #fff;
     padding: 10px 12px;
@@ -105,11 +106,11 @@ td {
     text-align: left;
     transition: background-color 0.2s ease; /* Smooth transition on hover */
 }
-  
+
 tr:nth-child(even) td {
     background-color: #f9f9f9;
 }
-  
+
 input[type="checkbox"] {
     margin-right: 8px;
     transform: scale(1.2);
@@ -125,19 +126,40 @@ td label {
 td label:hover {
     background-color: #e0e0e0;
 }
-  
+
 #pink th {
     background-color: #f7c0c0; /* Light pink header for the pink table */
 }
-  
+
 #green th {
     background-color: #c8f7c8; /* Light green header for the green table */
 }
-  
+
 #pink td {
     color: #e86c6c; /* Pink text for the pink table */
 }
-  
+
 #green td {
     color: #4caf50; /* Green text for the green table */
+}
+
+.search-filter-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 1em;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.exploration-label {
+    font-size: 18px;
+    font-family: sans-serif;
+}
+
+#dropbox-select {
+    padding: 0.25em;
+    font-size: 16px;
 }
