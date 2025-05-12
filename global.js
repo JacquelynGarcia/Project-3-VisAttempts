@@ -254,7 +254,7 @@ function renderScatterplot(data){
             .tickFormat("")
         )
     .selectAll("line")
-    .attr("stroke", "rgba(0,0,0,0.05)");
+    .attr("stroke", "rgba(0,0,0,0.1)");
 
     // Y Grid lines
     svg.append("g")
@@ -266,7 +266,7 @@ function renderScatterplot(data){
             .tickFormat("")
         )
     .selectAll("line")
-    .attr("stroke", "rgba(0,0,0,0.05)");
+    .attr("stroke", "rgba(0,0,0,0.1)");
 
     svg.selectAll(".x-grid path, .y-grid path")
     .remove();
@@ -292,7 +292,7 @@ function renderScatterplot(data){
 
     const legend = svg.append("g")
         .attr("class", "legend")
-        .attr("transform", `translate(${usableArea.right - 80}, ${usableArea.top + 10})`);
+        .attr("transform", `translate(${usableArea.right - 60}, ${usableArea.top + 10})`);
     const mouseIDs = Object.keys(mouseColorMap).map(d => +d);
     
     legend.selectAll("legend-item")
@@ -380,7 +380,7 @@ function renderLinePlot(data){
             .attr("x2", usableArea.right)
             .attr("y1", yScale(tickValue))
             .attr("y2", yScale(tickValue))
-            .attr("stroke", "rgba(0,0,0,0.05)")
+            .attr("stroke", "rgba(0,0,0,0.1)")
             .attr("stroke-width", 1)
     );
     
@@ -391,7 +391,7 @@ function renderLinePlot(data){
             .attr("x2", usableArea2.right)
             .attr("y1", yScale2(tickValue))
             .attr("y2", yScale2(tickValue))
-            .attr("stroke", "rgba(0,0,0,0.05)") 
+            .attr("stroke", "rgba(0,0,0,0.1)") 
             .attr("stroke-width", 1)
     );
     
