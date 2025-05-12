@@ -244,6 +244,34 @@ function renderScatterplot(data){
             tooltip.transition().duration(300).style("opacity", 0);
         });
     
+     // X Grid lines
+    svg.append("g")
+    .attr("class", "x-grid")
+    .attr("transform", `translate(0,${usableArea.bottom})`)
+    .call(
+        d3.axisBottom(xScale)
+            .tickSize(-usableArea.height)
+            .tickFormat("")
+        )
+    .selectAll("line")
+    .attr("stroke", "rgba(0,0,0,0.05)");
+
+    // Y Grid lines
+    svg.append("g")
+    .attr("class", "y-grid")
+    .attr("transform", `translate(${usableArea.left},0)`)
+    .call(
+        d3.axisLeft(yScale)
+            .tickSize(-usableArea.width)
+            .tickFormat("")
+        )
+    .selectAll("line")
+    .attr("stroke", "rgba(0,0,0,0.05)");
+
+    svg.selectAll(".x-grid path, .y-grid path")
+    .remove();
+
+    
     svg.append("g")
         .attr("transform", `translate(0,${usableArea.bottom})`)
         .call(d3.axisBottom(xScale));
@@ -264,7 +292,7 @@ function renderScatterplot(data){
 
     const legend = svg.append("g")
         .attr("class", "legend")
-        .attr("transform", `translate(${usableArea.right - 80}, ${usableArea.top})`);
+        .attr("transform", `translate(${usableArea.right - 80}, ${usableArea.top + 10})`);
     const mouseIDs = Object.keys(mouseColorMap).map(d => +d);
     
     legend.selectAll("legend-item")
@@ -285,7 +313,7 @@ function renderScatterplot(data){
                 .attr("x", 10)
                 .attr("y", 4)
                 .text(`Mouse ${d}`)
-                .style("font-size", "12px");
+                .style("font-size", "11px");
     });
 }
 

@@ -164,3 +164,8 @@ td label:hover {
     padding: 0.25em;
     font-size: 16px;
 }
+
+.legend rect {
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  }
+  
