@@ -218,7 +218,7 @@ function renderScatterplot(data){
         .append('svg')
         .attr('viewBox', `0 0 ${width} ${height}`)
         .style('overflow', 'visible');
-    
+     
     const dots = svg.append('g').attr('class', 'dots');
     const tooltip = d3.select("#tooltip");
     svg.selectAll("circle")
@@ -328,6 +328,7 @@ function renderLinePlot(data){
         .range([usableArea.left, usableArea.right])
         .nice();
     const yScale = d3.scaleLinear().domain([minAvgAct, maxAvgAct]).range([usableArea.bottom, usableArea.top]);
+    
 
     const usableArea2 = {
         top: margin.top,
@@ -343,6 +344,28 @@ function renderLinePlot(data){
         .range([usableArea2.left, usableArea2.right])
         .nice();
     const yScale2 = d3.scaleLinear().domain([minAvgTemp, maxAvgTemp]).range([usableArea2.bottom, usableArea2.top]);
+
+    yScale.ticks(13).forEach(tickValue =>
+        svg.append("line")
+            .attr("class", "grid-line")
+            .attr("x1", usableArea.left)
+            .attr("x2", usableArea.right)
+            .attr("y1", yScale(tickValue))
+            .attr("y2", yScale(tickValue))
+            .attr("stroke", "rgba(0,0,0,0.05)")
+            .attr("stroke-width", 1)
+    );
+    
+    yScale2.ticks(9).forEach(tickValue =>
+        svg.append("line")
+            .attr("class", "grid-line")
+            .attr("x1", usableArea2.left)
+            .attr("x2", usableArea2.right)
+            .attr("y1", yScale2(tickValue))
+            .attr("y2", yScale2(tickValue))
+            .attr("stroke", "rgba(0,0,0,0.05)") 
+            .attr("stroke-width", 1)
+    );
     
     const lineAct = d3.line()
         .x(d => xScale(d.date))
