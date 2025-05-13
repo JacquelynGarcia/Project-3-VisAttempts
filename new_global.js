@@ -73,48 +73,6 @@ function dropboxFiltering() {
         document.getElementById("g14").checked = false;
     }
 }
-/*
-function filterByMinute(data) {
-    const slider = document.getElementById('minuteSlider');
-
-    const femaleSelected = document.querySelectorAll('#mouse-selector input[type="checkbox"]');
-    const femaleIds = [];
-    femaleSelected.forEach(f => {
-        if (f.checked){
-            femaleIds.push(+f.id.slice(1));
-        } 
-    });
-
-    const line1Selected = document.querySelectorAll('#pink input[type="checkbox"]');
-    const line1Days = [];
-    line1Selected.forEach(p => {
-        if (p.checked){
-            line1Days.push(+p.id.slice(1));
-        }
-    });
-
-    const line2Selected = document.querySelectorAll('#green input[type="checkbox"]');
-    const line2Days = [];
-    line2Selected.forEach(g => {
-        if (g.checked){
-            line2Days.push(+g.id.slice(1));
-        }
-    });
-
-    let dots = [];
-    let unique = [];
-    data.forEach((row) => {
-        if (+row.minutes === +slider.value && femaleIds.includes(row.id) && (line1Days.includes(row.days + 1) || line2Days.includes(row.days + 1))){
-            dots.push(row);
-            if (!unique.includes(+row.id)){
-                unique.push(+row.id);
-            }
-        }
-    });
-
-    return [dots, unique];
-}
-*/
 
 ///New version with Z-score normalization + raw data
 function filterByMinute(data, useZScore = true) {

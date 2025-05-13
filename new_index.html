@@ -8,9 +8,12 @@
     <title>Mouse Estrous Cycle Visualization</title>
 </head>
 <body>
+    <header>
     <h1>Mouse Estrous Cycle Visualization</h1>
-
+     <h4>Exploring temperature and activity patterns across different phases of the estrous cycle in female mice</h4>
+    </header>
     <div class="intro-section intro-flex">
+        
         <div class="phase-info">
             <h3>Estrous Cycle Phases:</h3>
             <ul>
@@ -161,17 +164,19 @@
         <p class="chart-description">Average temperature and activity patterns over a 24-hour cycle.</p>
         <div id="chart"></div>
     </section>
+    
+    <section
+    <div class="control-group">
+        <label for="minuteSlider">Time:</label>
+        <input type="range" id="minuteSlider" min="0" max="1439" value="720" step="1">
+        <span id="minuteLabel">12:00 PM</span>
+    </div>
+     </section>
 
     <section class="visualization-container">
         <h3>Scatterplot Visualization</h3>
         <p class="chart-description">Temperature vs. activity at the selected time point.</p>
 
-
-            <div class="control-group">
-              <label for="minuteSlider">Time:</label>
-              <input type="range" id="minuteSlider" min="0" max="1439" value="720" step="1">
-              <span id="minuteLabel">12:00 PM</span>
-            </div>
           </div>
 
           <div class="scatter-controls">
@@ -187,9 +192,6 @@
     
     <div id="tooltip"></div>
 
-    <footer>
-        <p>Mouse Estrous Cycle Visualization Tool - Version 1.0</p>
-        <p class="disclaimer">For research purposes only. Data collected from laboratory mice under approved protocols.</p>
-    </footer>
+
 </body>
 </html>
