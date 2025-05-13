@@ -638,6 +638,133 @@ function renderLinePlot(data){
     tempLabel2 = focusGroup.append("text")
                 .attr("class","tooltip").style("font-size","10px")
                 .style("visibility","visible");
+    
+                const brush1 = d3.brushX()
+                .extent([[usableArea.left, usableArea.top], [usableArea.right, usableArea.bottom]])
+                .on("end", brushed);
+           
+            const brush2 = d3.brushX()
+                .extent([[usableArea2.left, usableArea2.top], [usableArea2.right, usableArea2.bottom]])
+                .on("end", brushed);
+           
+            svg.append("g")
+                .attr("class", "brush")
+                .call(brush1);
+           
+            svg.append("g")
+                .attr("class", "brush2")
+                .call(brush2);
+         
+         
+            function brushed(event) {
+                if (!event.selection) return;
+               
+                const [x0, x1] = event.selection;
+                const start = xScale.invert(x0);
+                const end = xScale.invert(x1);
+               
+                xScale.domain([start, end]);
+                xScale2.domain([start, end]);
+               
+                const filteredData0 = data[0].filter(d => d.date >= start && d.date <= end);
+                const filteredData1 = data[1].filter(d => d.date >= start && d.date <= end);
+               
+                svg.selectAll(".line").remove();
+                svg.selectAll(".x-axis").remove();
+               
+                drawLines(filteredData0, filteredData1);
+               
+                svg.append("g")
+                    .attr("class", "x-axis")
+                    .attr("transform", `translate(0,${usableArea.bottom})`)
+                    .call(d3.axisBottom(xScale).tickFormat(d3.timeFormat("%H:%M")));
+               
+                svg.append("g")
+                    .attr("class", "x-axis")
+                    .attr("transform", `translate(0,${usableArea2.bottom})`)
+                    .call(d3.axisBottom(xScale2).tickFormat(d3.timeFormat("%H:%M)")));
+            }
+           
+            function drawLines(data0, data1) {
+                // Left
+                if (data0.length)
+                    svg.append("path")
+                        .datum(data0)
+                        .attr("class", "line")
+                        .attr("fill", "none")
+                        .attr("stroke", "pink")
+                        .attr("stroke-width", 2)
+                        .attr("d", d3.line()
+                            .x(d => xScale(d.date))
+                            .y(d => yScale(d.avg_act)));
+               
+                if (data1.length)
+                    svg.append("path")
+                        .datum(data1)
+                        .attr("class", "line")
+                        .attr("fill", "none")
+                        .attr("stroke", "green")
+                        .attr("stroke-width", 2)
+                        .attr("d", d3.line()
+                            .x(d => xScale(d.date))
+                            .y(d => yScale(d.avg_act)));
+               
+                // Right
+                if (data0.length)
+                    svg.append("path")
+                        .datum(data0)
+                        .attr("class", "line")
+                        .attr("fill", "none")
+                        .attr("stroke", "pink")
+                        .attr("stroke-width", 2)
+                        .attr("d", d3.line()
+                            .x(d => xScale2(d.date))
+                            .y(d => yScale2(d.avg_temp)));
+               
+                if (data1.length)
+                    svg.append("path")
+                        .datum(data1)
+                        .attr("class", "line")
+                        .attr("fill", "none")
+                        .attr("stroke", "green")
+                        .attr("stroke-width", 2)
+                        .attr("d", d3.line()
+                            .x(d => xScale2(d.date))
+                            .y(d => yScale2(d.avg_temp)));
+                }
+           
+           
+                d3.select("#resetZoom").on("click", () => {
+                    xScale.domain([startOfDay, endOfDay]);
+                    xScale2.domain([startOfDay, endOfDay]);
+               
+                    svg.selectAll(".line").remove();
+                    svg.selectAll(".x-axis").remove();
+               
+                    drawLines(data[0], data[1]);
+               
+                    svg.append("g")
+                        .attr("class", "x-axis")
+                        .attr("transform", `translate(0,${usableArea.bottom})`)
+                        .call(
+                            d3.axisBottom(xScale)
+                              .ticks(d3.timeHour.every(3))
+                              .tickFormat(d3.timeFormat("%H:%M"))
+                        );
+               
+                    svg.append("g")
+                        .attr("class", "x-axis")
+                        .attr("transform", `translate(0,${usableArea2.bottom})`)
+                        .call(
+                            d3.axisBottom(xScale2)
+                              .ticks(d3.timeHour.every(3))
+                              .tickFormat(d3.timeFormat("%H:%M"))
+                        );
+               
+                    svg.select(".brush1").call(brush1.move, null);
+                    svg.select(".brush2").call(brush2.move, null);
+                });
+         
 }
 
 export function updateFocus(time) {

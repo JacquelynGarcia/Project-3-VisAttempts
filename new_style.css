@@ -593,3 +593,22 @@ footer {
     width: 100%;          /* let the browser scale the SVG */
     height: 65px;         /* keep the knob easy to grab   */
 }
+
+#resetZoom {
+    background-color: white;
+    color: #87CEEB; /* Light Blue text (Sky Blue) */
+    padding: 8px 16px; /* Slightly smaller padding */
+    border: 1px solid #87CEEB; /* Light Blue border, slightly thinner */
+    border-radius: 2px; /* Slightly smaller border radius */
+    cursor: pointer;
+    font-size: 14px; /* Slightly smaller font size */
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; /* Include border transition */
+ }
+ 
+ 
+ #resetZoom:hover {
+    background-color: #87CEEB; /* Light Blue background on hover */
+    color: white; /* White text on hover */
+    border-color: #6495ED; /* Slightly darker blue border on hover (Cornflower Blue) */
+ }
+ 
