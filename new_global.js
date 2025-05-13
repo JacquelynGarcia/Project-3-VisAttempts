@@ -341,7 +341,7 @@ function renderScatterplot([dots, uniqueMouseIds], useZScore) {
             tooltip.transition().duration(200).style("opacity", 0.9);
             tooltip.html(`
                 <div style="background-color: ${mouseColorMap[d.id]}; color: white; padding: 4px 8px; margin-bottom: 4px; border-radius: 3px;">
-                    <strong>Mouse ${d.id}</strong>
+                    <strong>No. ${d.id}</strong>
                 </div>
                 <strong>Day:</strong> ${d.days + 1} (${phaseMap[d.days + 1] || 'Unknown Phase'})<br>
                 <strong>Time:</strong> ${formatTime(d.minutes)}<br>
@@ -422,7 +422,7 @@ function renderScatterplot([dots, uniqueMouseIds], useZScore) {
         g.append("text")
             .attr("x", 15)
             .attr("y", 5)
-            .text(`Mouse ${id}`)
+            .text(`No. ${id}`)
             .style("font-size", "11px");
     });
 }
