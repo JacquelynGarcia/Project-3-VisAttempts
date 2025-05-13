@@ -203,9 +203,9 @@ function renderScatterplot([dots, uniqueMouseIds], useZScore) {
     let mouseColorMap = {
         1: '#8dd3c7', 2: '#9c755f', 3: '#bebada', 4: '#fb8072', 5: '#80b1d3',
         6: '#fdb462', 7: '#b3de69', 8: '#fccde5', 9: '#bab0ab', 10: '#bc80bd',
-        11: '#ccebc5', 12: '#ffed6f', 13: '#816b01'
+        11: '#ccebc5', 12: '#ffed6f', 13: '#d1a0a3'
     };
-
+    
     mouseColorMap = Object.fromEntries(
         Object.entries(mouseColorMap).filter(([key]) => uniqueMouseIds.includes(+key))
     );
