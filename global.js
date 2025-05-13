@@ -267,6 +267,7 @@ export function renderScatterplot([dots, uniqueMouseIds], useZScore) {
         .style('overflow', 'visible');
 
     // Add a title to the scatterplot
+    const timeFmt = d3.timeFormat("%-I:%M %p");
     svg.append("text")
         .attr("class", "chart-title")
         .attr("text-anchor", "middle")
@@ -274,7 +275,8 @@ export function renderScatterplot([dots, uniqueMouseIds], useZScore) {
         .attr("y", margin.top / 2)
         .style("font-size", "14px")
         .style("font-weight", "bold")
-        .text(`Mouse Data at ${timeSlide.value()} (${useZScore ? "Z-Score Normalized" : "Raw Values"})`);
+        .text(`Mouse Data at ${timeFmt(timeSlide.value())} (${useZScore ? "Z-Score Normalized" : "Raw Values"})`);
+
 
     // Add background for better visibility
     svg.append("rect")
