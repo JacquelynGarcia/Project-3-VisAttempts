@@ -3,6 +3,31 @@ body {
     max-width: 125ch;
     margin-inline: max(1em, (100% - 125ch) / 2);
     padding: 10px;
+    color: #333;
+}
+
+h1 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    border-bottom: 2px solid #ecf0f1;
+}
+.intro-section {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.intro-section p {
+    margin-top: 0;
+}
+
+.intro-section ul {
+    padding-left: 25px;
+    margin-bottom: 0;
 }
 
 .searchBar {
@@ -168,3 +193,10 @@ td label:hover {
 .legend rect {
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
   }
+
+  .phase-legend {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
