@@ -10,19 +10,36 @@
 <body>
     <header>
     <h1>Mouse Estrous Cycle Visualization</h1>
-     <h4>Exploring temperature and activity patterns across different phases of the estrous cycle in female mice</h4>
-    </header>
+    <h4>Exploring temperature and activity patterns across different phases of the estrous cycle in female mice</h4>
+    <div class="header-action-bar">
+        <a href="https://docs.google.com/document/d/12rSyt8WOXRBbdupHdHf3mZM_DMS1J2C288tPSDbdGDA/edit?usp=sharing" class="btn-secondary">
+            View Write-up
+        </a>
+    </div>
+</header>
     <div class="intro-section intro-flex">
-        
         <div class="phase-info">
             <h3>Estrous Cycle Phases:</h3>
             <ul>
                 <li><strong>Proestrus:</strong> Follicular development; rising estrogen; increased activity begins</li>
-                <li><strong>Estrus:</strong> Ovulation; peak sexual receptivity and highest acti</li>
+                <li><strong>Estrus:</strong> Ovulation; peak sexual receptivity and highest activity</li>
                 <li><strong>Metestrus:</strong> Transition; estrogen drops</li>
                 <li><strong>Diestrus:</strong> Low activity; uterine lining maintained</li>
             </ul>
+            
+            <!-- Exploration method moved here from separate container -->
+            <div class="exploration-controls">
+                <label for="dropbox-select" class="exploration-label">
+                    Choose Exploration Method:
+                </label>
+                <select id="dropbox-select">
+                    <option value="o1" selected>Estrus vs Non-Estrus</option>
+                    <option value="o2">Diestrus vs Proestrus</option>
+                    <option value="o3">Custom Exploration</option>
+                </select>
+            </div>
         </div>
+        
         <div class="usage-guide">
             <h3>How to Use This Tool:</h3>
             <ol>
@@ -33,17 +50,6 @@
                 <li>Toggle between raw values and Z-score normalized views for better comparison</li>
             </ol>
         </div>
-    </div>
-
-    <div class="search-filter-container">
-        <label for="dropbox-select" class="exploration-label">
-            Choose Exploration Method:
-            <select id="dropbox-select">
-                <option value="o1" selected>Estrus vs Non-Estrus</option>
-                <option value="o2">Diestrus vs Proestrus</option>
-                <option value="o3">Custom Exploration</option>
-            </select>
-        </label>
     </div>
 
     <section class="selection-container">

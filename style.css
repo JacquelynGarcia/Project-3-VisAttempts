@@ -86,6 +86,52 @@ h4 {
     min-width: 300px;
 }
 
+/* Button styles */
+.btn-secondary {
+    display: inline-block;
+    background-color: transparent;
+    color: #3498db;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 500;
+    text-decoration: none;
+    border: 2px solid #3498db;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(52, 152, 219, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+/* Header action bar */
+.header-action-bar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    gap: 15px;
+}
+
+@media (max-width: 768px) {
+    .header-action-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .btn-secondary {
+        text-align: center;
+    }
+}
 
 /* Search and filter container */
 .search-filter-container {
@@ -116,6 +162,11 @@ h4 {
     margin-left: 10px;
 }
 
+.exploration-controls {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd; /* This creates the faint dividing line */
+}
 /* Mouse selector grid */
 #mouse-selector {
     list-style: none;
