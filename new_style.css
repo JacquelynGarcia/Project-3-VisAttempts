@@ -168,6 +168,72 @@ h4 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Individual accent colors for each mouse checkbox */
+#mouse-selector input[type="checkbox"]#f1 {
+    accent-color: #FDC6E6;
+ }
+ 
+ 
+ #mouse-selector input[type="checkbox"]#f2 {
+    accent-color: #FEDBD5;
+ }
+ 
+ 
+ #mouse-selector input[type="checkbox"]#f3 {
+    accent-color: #FFACAB;
+ }
+ 
+ 
+ #mouse-selector input[type="checkbox"]#f4 {
+    accent-color: #ABFCFE;
+ }
+ 
+ 
+ #mouse-selector input[type="checkbox"]#f5 {
+    accent-color: #E1FEFF;
+ }
+ 
+ 
+ #mouse-selector input[type="checkbox"]#f6 {
+    accent-color: #FFF6BA;
+ }
+ 
+ 
+ #mouse-selector input[type="checkbox"]#f7 {
+    accent-color: #FFCEA2;
+ }
+ 
+ 
+ #mouse-selector input[type="checkbox"]#f8 {
+    accent-color: #E6F4FF;
+ }
+ 
+ 
+ #mouse-selector input[type="checkbox"]#f9 {
+    accent-color: #C4D1FE;
+ }
+ 
+ 
+ #mouse-selector input[type="checkbox"]#f10 {
+    accent-color: #E4FEBD;
+ }
+ 
+ 
+ #mouse-selector input[type="checkbox"]#f11 {
+    accent-color: #EEFADB;
+ }
+ 
+ 
+ #mouse-selector input[type="checkbox"]#f12 {
+    accent-color: #D1FFE9;
+ }
+ 
+ 
+ #mouse-selector input[type="checkbox"]#f13 {
+    accent-color: #DDC4FC;
+ }
+ 
+
 /* Day selector tables */
 .parent {
     display: flex;
