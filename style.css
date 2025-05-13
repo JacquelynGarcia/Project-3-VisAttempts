@@ -10,15 +10,32 @@ body {
     padding-bottom: 50px;
 }
 
+.centered-title,
+.centered-byline {
+    text-align: center;
+}
+.centered-byline {
+    margin-bottom: 20px;
+}
+
 /* Header and section styles */
 h1 {
     color: #2c3e50;
     text-align: center;
     margin-bottom: 1em;
     padding-bottom: 0.7em;
-    border-bottom: 3px solid #3498db;
     font-weight: 600;
-    font-size: 2.0rem;
+    font-size: 2.3rem;
+}
+.byline {
+    text-align: center;
+    margin-top: -3.5em;     /* pull closer to h1 */
+    margin-bottom: 1.2em;   /* space before next content */
+    border-bottom: 3px solid #3498db;
+    font-size: 1rem;
+    padding-bottom: 0.9em;
+    font-weight: 500;
+    color: #333;
 }
 
 h3, h4 {
