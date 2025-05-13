@@ -163,14 +163,13 @@ h4 {
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
-
 .exploration-label {
     font-size: 1.1rem;
     font-weight: 500;
 }
 
 #dropbox-select {
-    padding: 8px 12px;
+    padding: 8px 20px;
     font-size: 1rem;
     border-radius: 6px;
     border: 1px solid #ddd;
@@ -180,9 +179,14 @@ h4 {
 }
 
 .exploration-controls {
-    margin-top: 25px;
-    padding-top: 20px;
-    border-top: 1px solid #ddd; /* This creates the faint dividing line */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;                /* space between label and select */
+    margin-top: 50px;         /* less top spacing */
+    margin-bottom: -1em;     /* reduce bottom spacing */
+    padding-top: 40px;
+    border-top: 1px solid #ddd;
 }
 /* Mouse selector grid */
 #mouse-selector {
