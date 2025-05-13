@@ -209,9 +209,9 @@ function filtering(data) {
 
 export function renderScatterplot([dots, uniqueMouseIds], useZScore) {
     let mouseColorMap = {
-        1: '#8dd3c7', 2: '#9c755f', 3: '#bebada', 4: '#fb8072', 5: '#80b1d3',
-        6: '#fdb462', 7: '#b3de69', 8: '#fccde5', 9: '#bab0ab', 10: '#bc80bd',
-        11: '#ccebc5', 12: '#ffed6f', 13: '#816b01'
+        1: '#FDC6E6', 2: '#fdebda', 3: '#FFACAB', 4: '#ABFCFE', 5: '#a4cbb6',
+        6: '#FFF6BA', 7: '#FFCEA2', 8: '#d0d0d0', 9: '#C4D1FE', 10: '#E4FEBD',
+        11: '#cdc0b3', 12: '#D1FFE9', 13: '#DDC4FC'
     };
 
     mouseColorMap = Object.fromEntries(
@@ -494,6 +494,14 @@ function renderLinePlot(data){
         .attr("x", -height/2)
         .attr("y", 10) // To the left of the y-axis
         .text("Average Activity Level");
+    svg.append("text")
+        .attr("class", "chart-title")
+        .attr("text-anchor", "middle")
+        .attr("x", usableArea.left + usableArea.width / 2)
+        .attr("y", usableArea.top / 2)
+        .style("font-size", "14px")
+        .style("font-weight", "bold")
+        .text(`Average Activity Level By Time`);
 
     const usableArea2 = {
         top: margin.top,
@@ -530,6 +538,14 @@ function renderLinePlot(data){
         .attr("x", -height/2)
         .attr("y", 5 + width/2) 
         .text("Average Temperature");
+    svg.append("text")
+        .attr("class", "chart-title")
+        .attr("text-anchor", "middle")
+        .attr("x", usableArea2.left + usableArea2.width / 2)
+        .attr("y", usableArea2.top / 2)
+        .style("font-size", "14px")
+        .style("font-weight", "bold")
+        .text(`Average Temperature By Time`);
     yScale.ticks(13).forEach(tickValue =>
         svg.append("line")
             .attr("class", "grid-line")
@@ -564,14 +580,16 @@ function renderLinePlot(data){
             .datum(data[0])
             .attr("class", "line")
             .attr("fill", "none")
-            .attr("stroke", 'pink')
+            .attr("stroke", '#ffb6c1')
+            .attr("opacity", '0.7')
             .attr("stroke-width", 2)
             .attr("d", lineAct);
         svg.append("path")
             .datum(data[0])
             .attr("class", "line")
             .attr("fill", "none")
-            .attr("stroke", 'pink')
+            .attr("stroke", '#ffb6c1')
+            .attr("opacity", 0.7)
             .attr("stroke-width", 2)
             .attr("d", lineTemp);
     }
@@ -580,14 +598,16 @@ function renderLinePlot(data){
             .datum(data[1])
             .attr("class", "line")
             .attr("fill", "none")
-            .attr("stroke", 'green')
+            .attr("stroke", '#198754')
+            .attr("opacity", '0.7')
             .attr("stroke-width", 2)
             .attr("d", lineAct);
         svg.append("path")
             .datum(data[1])
             .attr("class", "line")
             .attr("fill", "none")
-            .attr("stroke", 'green')
+            .attr("stroke", '#198754')
+            .attr("opacity", '0.7')
             .attr("stroke-width", 2)
             .attr("d", lineTemp);
     }
