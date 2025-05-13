@@ -476,7 +476,7 @@ function renderLinePlot(data){
         .domain([startOfDay, endOfDay])
         .range([usableArea.left, usableArea.right])
         .nice();
-    yScale = d3.scaleLinear().domain([0, 70]).range([usableArea.bottom, usableArea.top]);
+    yScale = d3.scaleLinear().domain([minAvgAct, maxAvgAct]).range([usableArea.bottom, usableArea.top]);
     svg.append("g")
         .attr("transform", `translate(0,${usableArea.bottom})`)
         .call(d3.axisBottom(xScale).tickFormat(d3.timeFormat("%H:%M")));
@@ -615,29 +615,29 @@ function renderLinePlot(data){
 
     // left line
     leftCursor = focusGroup.append("line")
-    .attr("class", "cursor-left")
-    .attr("y1", margin.top)
-    .attr("y2", height - margin.bottom)
-    .attr("stroke", "#444")
-    .attr("stroke-dasharray", "3,3");
+        .attr("class", "cursor-left")
+        .attr("y1", margin.top)
+        .attr("y2", height - margin.bottom)
+        .attr("stroke", "#444")
+        .attr("stroke-dasharray", "3,3");
 
     // right line
     rightCursor = focusGroup.append("line")
-    .attr("class", "cursor-right")
-    .attr("y1", margin.top)
-    .attr("y2", height - margin.bottom)
-    .attr("stroke", "#444")
-    .attr("stroke-dasharray", "3,3");
+        .attr("class", "cursor-right")
+        .attr("y1", margin.top)
+        .attr("y2", height - margin.bottom)
+        .attr("stroke", "#444")
+        .attr("stroke-dasharray", "3,3");
 
     
 
     leftCursor
-  .attr("x1", xScale(startOfDay))
-  .attr("x2", xScale(startOfDay));
+        .attr("x1", xScale(startOfDay))
+        .attr("x2", xScale(startOfDay));
 
     rightCursor
-    .attr("x1", xScale2(startOfDay))    
-    .attr("x2", xScale2(startOfDay));
+        .attr("x1", xScale2(startOfDay))    
+        .attr("x2", xScale2(startOfDay));
     
 
 
@@ -765,24 +765,12 @@ dropboxSelect.addEventListener('change', () => {
 
 });
 
-
-// let query = '';
-// let searchInput = document.querySelector('#searchBar');
-// searchInput.addEventListener('change', (event) => {
-//     query = event.target.value;
-//     let filteredData = data.filter((d) => {
-//         let values = query.split(', ');
-//         return values.includes(query.toLowerCase());
-//     });
-//     renderLinePlot(filteredData);
-// });
-
 function placeLabel(label, cx, cy, text, where){
-  const dx = 6, dy = 6;          
-  if (where === "top-left"){
-    label.attr("x", cx - dx).attr("y", cy - dy);
-  } else { 
-    label.attr("x", cx + dx).attr("y", cy + dy + 8); 
-  }
-  label.text(text).style("visibility","visible");
+    const dx = 6, dy = 6;          
+    if (where === "top-left"){
+        label.attr("x", cx - dx).attr("y", cy - dy);
+    } else { 
+        label.attr("x", cx + dx).attr("y", cy + dy + 8); 
+    }
+    label.text(text).style("visibility","visible");
 }
