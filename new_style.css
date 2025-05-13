@@ -98,7 +98,6 @@ h4 {
     border: none;
     padding: 15px 20px;
     border-radius: 10px;
-    width: 100%;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
@@ -432,4 +431,99 @@ footer {
     .child {
         margin-bottom: 20px;
     }
+}
+
+/* === D3 slider theme === */
+.d3-slider-horizontal .track,
+.d3-slider-horizontal .track-inset,
+.d3-slider-horizontal .track-overlay {
+    height: 7px;                     /* same height as #minuteSlider */
+    rx: 4px;
+    ry: 4px;
+}
+
+.d3-slider-horizontal .track {
+    fill: #e0e0e0;                   /* grey background */
+}
+
+.d3-slider-horizontal .track-fill {
+    fill: #3498db;                   /* blue progress bar */
+}
+
+.d3-slider-handle {
+    /* slider knob */
+    stroke: #3498db;
+    fill: #3498db;
+    r: 8px;                          /* radius */
+    cursor: pointer;
+}
+
+.d3-slider-tick text {
+    font-size: 0.75rem;
+    fill: #555;
+}
+
+/* ============ slider “card” ============ */
+.slider-card{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:6px 12px;
+    background:#ffffff;
+    border-radius:4px;
+    box-shadow:0 0 4px rgba(0,0,0,0.05);
+    width: 500;                 /* stretch to container */
+}
+
+/* label on the left */
+.slider-title{
+    font:14px/1.2 "Segoe UI",sans-serif;
+    color:#444;
+}
+
+/* blue pill on the right */
+.time-badge{
+    background:#2196f3;
+    color:#fff;
+    font:12px/1 "Segoe UI",sans-serif;
+    font-weight:600;
+    padding:3px 10px;
+    border-radius:12px;
+    white-space:nowrap;
+}
+
+/* make the SVG flex so it shrinks/expands nicely */
+.slider-shell svg{
+    display:block;
+    flex:1 1 auto;
+}
+
+/* ============ D3-simple-slider internals ============ */
+.d3-slider-horizontal .track,
+.d3-slider-horizontal .track-inset,
+.d3-slider-horizontal .track-overlay{
+    height:6px;
+    ry:3px; rx:3px;           /* rounded ends */
+}
+
+.d3-slider-horizontal .track        { fill:#e0e0e0; }  /* grey background */
+.d3-slider-horizontal .track-fill   { fill:#2196f3; }  /* blue progress  */
+.d3-slider-horizontal .track-overlay{ cursor:pointer; }
+
+.d3-slider-handle{
+    fill:#2196f3;
+    stroke:#ffffff;
+    stroke-width:1px;
+    r:7;                       /* knob radius */
+}
+
+.d3-slider-tick line   { stroke:#b0b0b0; }
+.d3-slider-tick text   { fill:#555; font-size:11px; }
+
+#year-slider{
+    width: 100%;          /* take the full width of the card / column */
+}
+#year-slider svg{
+    width: 100%;          /* let the browser scale the SVG */
+    height: 65px;         /* keep the knob easy to grab   */
 }

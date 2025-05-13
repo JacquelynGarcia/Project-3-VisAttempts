@@ -169,6 +169,15 @@ td label:hover {
     color: #4caf50; /* Green text for the green table */
 }
 
+.tooltip {
+  fill: #333;                /* text color */
+  font-family: "Arial", sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(255,255,255,0.7);  /* subtle halo */
+  pointer-events: none;
+}
+
 .search-filter-container {
     display: flex;
     align-items: center;

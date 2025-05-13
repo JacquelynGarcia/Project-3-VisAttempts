@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="new_style.css">
-    <script type="module" src="new_global.js"></script>
+    <script type="module" src="global.js"></script>
     <title>Mouse Estrous Cycle Visualization</title>
 </head>
 <body>
@@ -45,12 +45,12 @@
             </select>
         </label>
 
-        <input
+        <!-- <input
             id="searchBar"
             type="search"
             aria-label="Search mouse"
             placeholder="🔍 Search mouse…"
-        />
+        /> -->
     </div>
 
     <section class="selection-container">
@@ -164,13 +164,17 @@
         <p class="chart-description">Average temperature and activity patterns over a 24-hour cycle.</p>
         <div id="chart"></div>
     </section>
-    
-    <section
-    <div class="control-group">
-        <label for="minuteSlider">Time:</label>
-        <input type="range" id="minuteSlider" min="0" max="1439" value="720" step="1">
-        <span id="minuteLabel">12:00 PM</span>
+
+    <div class="slider-card">
+        <span class="slider-title">Time:</span>
+
+        <div id="year-slider" class="slider-shell"></div>
+
+        <span id="time-label" class="time-badge">12:00 PM</span>
     </div>
+
+   
+
      </section>
 
     <section class="visualization-container">
@@ -192,6 +196,8 @@
     
     <div id="tooltip"></div>
 
+
+    <script type="module" src="slider.js"></script>
 
 </body>
 </html>

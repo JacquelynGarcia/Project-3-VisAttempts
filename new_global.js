@@ -199,7 +199,7 @@ function filtering(data) {
     return [map1, map2];
 }
 
-function renderScatterplot([dots, uniqueMouseIds], useZScore) {
+export function renderScatterplot([dots, uniqueMouseIds], useZScore) {
     let mouseColorMap = {
         1: '#8dd3c7', 2: '#9c755f', 3: '#bebada', 4: '#fb8072', 5: '#80b1d3',
         6: '#fdb462', 7: '#b3de69', 8: '#fccde5', 9: '#bab0ab', 10: '#bc80bd',
@@ -587,7 +587,6 @@ function renderLinePlot(data){
 dropboxFiltering();
 
 let data = await loadData();
-renderLinePlot(filtering(data));
 renderScatterplot(filterByMinute(data, document.getElementById("zscoreToggle").checked));
 
 document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
@@ -613,14 +612,7 @@ dropboxSelect.addEventListener('change', () => {
     renderScatterplot(filterByMinute(data, useZ), useZ);
 });;
 
-const slider = document.getElementById('minuteSlider');
-slider.addEventListener('input', () => {
-    d3.select("#minuteLabel").text(formatTime(slider.value));
-    d3.select("#scatterplot").selectAll("*").remove();
 
-    const useZ = document.getElementById("zscoreToggle").checked;
-    renderScatterplot(filterByMinute(data, useZ), useZ);
-});
 
 // Z-score toggle
 document.getElementById("zscoreToggle").addEventListener("change", () => {
