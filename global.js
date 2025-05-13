@@ -583,7 +583,12 @@ function renderLinePlot(data){
             .attr("stroke", '#ffb6c1')
             .attr("opacity", '0.7')
             .attr("stroke-width", 2)
-            .attr("d", lineAct);
+            .attr("d", lineAct)
+            .on("click", function(event, d) {
+                d3.selectAll(".line").attr("stroke-width", 2);
+                d3.select(this).raise().attr("stroke-width", 3);
+                focusGroup.raise();
+            });
         svg.append("path")
             .datum(data[0])
             .attr("class", "line")
@@ -591,7 +596,12 @@ function renderLinePlot(data){
             .attr("stroke", '#ffb6c1')
             .attr("opacity", 0.7)
             .attr("stroke-width", 2)
-            .attr("d", lineTemp);
+            .attr("d", lineTemp)
+            .on("click", function(event, d) {
+                d3.selectAll(".line").attr("stroke-width", 2);
+                d3.select(this).raise().attr("stroke-width", 3);
+                focusGroup.raise();
+            });
     }
     if (data[1].length !== 0){
         svg.append("path")
@@ -601,7 +611,12 @@ function renderLinePlot(data){
             .attr("stroke", '#198754')
             .attr("opacity", '0.7')
             .attr("stroke-width", 2)
-            .attr("d", lineAct);
+            .attr("d", lineAct)
+            .on("click", function(event, d) {
+                d3.selectAll(".line").attr("stroke-width", 2);
+                d3.select(this).raise().attr("stroke-width", 3);
+                focusGroup.raise();
+            });
         svg.append("path")
             .datum(data[1])
             .attr("class", "line")
@@ -609,9 +624,25 @@ function renderLinePlot(data){
             .attr("stroke", '#198754')
             .attr("opacity", '0.7')
             .attr("stroke-width", 2)
-            .attr("d", lineTemp);
+            .attr("d", lineTemp)
+            .on("click", function(event, d) {
+                d3.selectAll(".line").attr("stroke-width", 2);
+                d3.select(this).raise().attr("stroke-width", 3);
+                focusGroup.raise();
+            });
     }
+
     focusGroup = svg.append("g").attr("class", "focus");
+
+    svg.append("rect")
+    .attr("width", width)
+    .attr("height", height)
+    .style("fill", "transparent")
+    .style("pointer-events", "all")
+    .lower()
+    .on("click", function() {
+        d3.selectAll(".line").attr("stroke-width", 2);
+    });
 
     // left line
     leftCursor = focusGroup.append("line")
@@ -639,7 +670,6 @@ function renderLinePlot(data){
         .attr("x1", xScale2(startOfDay))    
         .attr("x2", xScale2(startOfDay));
     
-
 
     actDot1  = focusGroup.append("circle").attr("r", 4).attr("fill", "black").style("visibility", "hidden");;   
     tempDot1 = focusGroup.append("circle").attr("r", 4).attr("fill", "black").style("visibility", "hidden");;   
