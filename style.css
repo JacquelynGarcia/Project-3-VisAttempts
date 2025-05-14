@@ -517,6 +517,10 @@ td label:hover {
     transition: opacity 0.3s;
 }
 
+.tooltip {
+    background: white;
+}
+
 /* Footer */
 footer {
     margin-top: 50px;

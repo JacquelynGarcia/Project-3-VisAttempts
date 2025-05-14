@@ -511,8 +511,6 @@ function renderLinePlot(data, startMin = 0, startDate = startOfDay, endMin = 143
         if (!event.selection) 
             return;
 
-        brushedOccurred = true;
-
         const [x0, x1] = event.selection;
         const start = xScale.invert(x0);
         const end = xScale.invert(x1);
@@ -531,10 +529,12 @@ function renderLinePlot(data, startMin = 0, startDate = startOfDay, endMin = 143
         else if (endingMin === 0){
             endingMin = maxMinute;
         }
+        if (endingMin - startingMin <= 9){
+            svg.select(".brush").call(brush1.move, null);
+            return;
+        }
 
-        console.log(startingMin);
-        console.log(endingMin);
-        
+        brushedOccurred = true;
         d3.select("#chart").selectAll("*").remove();
         renderLinePlot(originalData, startingMin, new Date(2000, 0, 1, 0, startingMin), endingMin, new Date(2000, 0, 1, 0, endingMin));
 
@@ -543,15 +543,11 @@ function renderLinePlot(data, startMin = 0, startDate = startOfDay, endMin = 143
         const newEnd   = new Date(2000, 0, 1, 0, endingMin);
         setSliderDomain(newStart, newEnd);
         updateFocus(timeSlide.value());
-
-
     }
 
     function brushed2(event) {
         if (!event.selection) 
             return;
-
-        brushedOccurred = true;
        
         const [x0, x1] = event.selection;
         const start = xScale2.invert(x0);
@@ -571,11 +567,15 @@ function renderLinePlot(data, startMin = 0, startDate = startOfDay, endMin = 143
         else if (endingMin === 0){
             endingMin = maxMinute;
         }
+        if (endingMin - startingMin <= 9){
+            svg.select(".brush2").call(brush2.move, null);
+            return;
+        }
 
+        brushedOccurred = true;
 
         d3.select("#chart").selectAll("*").remove();
         renderLinePlot(originalData, startingMin, new Date(2000, 0, 1, 0, startingMin), endingMin, new Date(2000, 0, 1, 0, endingMin));
-
         
         const newStart = new Date(2000, 0, 1, 0, startingMin);
         const newEnd   = new Date(2000, 0, 1, 0, endingMin);
@@ -590,10 +590,9 @@ function renderLinePlot(data, startMin = 0, startDate = startOfDay, endMin = 143
     svg.append("g")
         .attr("class", "brush")
         .call(brush1);
-    
     svg.append("g")
         .attr("transform", `translate(0,${usableArea.bottom})`)
-        .call(d3.axisBottom(xScale).tickFormat(d3.timeFormat("%H:%M")));
+        .call(d3.axisBottom(xScale).tickValues(d3.timeTicks(xScale.domain()[0], xScale.domain()[1], 4)).tickFormat(d3.timeFormat("%I:%M %p")));
     svg.append("g")
         .attr("transform", `translate(${usableArea.left},0)`)
         .call(d3.axisLeft(yScale));
@@ -601,7 +600,7 @@ function renderLinePlot(data, startMin = 0, startDate = startOfDay, endMin = 143
         .attr("text-anchor", "middle")
         .attr("x", usableArea.left + usableArea.width / 2)
         .attr("y", height - 5)
-        .text("24-Hour Time (HH:MM)");
+        .text("24-Hour Time");
     svg.append("text")
         .attr("text-anchor", "middle")
         .attr("transform", `rotate(-90)`)
@@ -627,7 +626,7 @@ function renderLinePlot(data, startMin = 0, startDate = startOfDay, endMin = 143
 
     svg.append("g")
         .attr("transform", `translate(0,${usableArea2.bottom})`)
-        .call(d3.axisBottom(xScale2).tickFormat(d3.timeFormat("%H:%M")));
+        .call(d3.axisBottom(xScale2).tickValues(d3.timeTicks(xScale2.domain()[0], xScale2.domain()[1], 4)).tickFormat(d3.timeFormat("%I:%M %p")));
     svg.append("g")
         .attr("transform", `translate(${usableArea2.left},0)`)
         .call(d3.axisLeft(yScale2));
@@ -635,7 +634,7 @@ function renderLinePlot(data, startMin = 0, startDate = startOfDay, endMin = 143
         .attr("text-anchor", "middle")
         .attr("x", usableArea2.left + usableArea2.width / 2)
         .attr("y", height - 5)
-        .text("24-Hour Time (HH:MM)");
+        .text("24-Hour Time");
     svg.append("text")
         .attr("text-anchor", "middle")
         .attr("transform", `rotate(-90)`)
@@ -717,16 +716,16 @@ function renderLinePlot(data, startMin = 0, startDate = startOfDay, endMin = 143
     tempDot2 = focusGroup.append("circle").attr("r", 4).attr("fill", "black").style("visibility", "hidden");;
 
     actLabel1  = focusGroup.append("text")
-              .attr("class","tooltip").style("font-size","10px")
+              .attr("class","tooltip").style("font-size","10px").style("font-weight", "bold")
               .style("visibility","visible");
     tempLabel1 = focusGroup.append("text")
-                .attr("class","tooltip").style("font-size","10px")
+                .attr("class","tooltip").style("font-size","10px").style("font-weight", "bold")
                 .style("visibility","visible");
     actLabel2  = focusGroup.append("text")
-                .attr("class","tooltip").style("font-size","10px")
+                .attr("class","tooltip").style("font-size","10px").style("font-weight", "bold")
                 .style("visibility","visible");
     tempLabel2 = focusGroup.append("text")
-                .attr("class","tooltip").style("font-size","10px")
+                .attr("class","tooltip").style("font-size","10px").style("font-weight", "bold")
                 .style("visibility","visible");
 
     if (data[0].length !== 0){
@@ -767,64 +766,26 @@ function renderLinePlot(data, startMin = 0, startDate = startOfDay, endMin = 143
             .attr("d", lineTemp);
     }
 
+    focusGroup.raise();
+
     const pink = svg.selectAll('.lineP').on("click", function(event, d) {
         d3.selectAll(".lineG").attr("stroke-width", 2);
         d3.selectAll(".lineP").raise().attr("stroke-width", 3);
+        focusGroup.raise();
     });
 
     const green = svg.selectAll('.lineG').on("click", function(event, d) {
-            d3.selectAll(".lineP").attr("stroke-width", 2);
-            d3.selectAll(".lineG").raise().attr("stroke-width", 3);
+        d3.selectAll(".lineP").attr("stroke-width", 2);
+        d3.selectAll(".lineG").raise().attr("stroke-width", 3);
+        focusGroup.raise();
     });
-
-    
-
-    function drawLines(data1, data2) {
-        if (data1.length !== 0){
-            svg.append("path")
-                .datum(data1)
-                .attr("class", "lineP")
-                .attr("fill", "none")
-                .attr("stroke", '#ffb6c1')
-                .attr("opacity", '0.7')
-                .attr("stroke-width", 2)
-                .attr("d", lineAct);
-            svg.append("path")
-                .datum(data1)
-                .attr("class", "lineP")
-                .attr("fill", "none")
-                .attr("stroke", '#ffb6c1')
-                .attr("opacity", 0.7)
-                .attr("stroke-width", 2)
-                .attr("d", lineTemp);
-        }
-
-        if (data2.length !== 0){
-            svg.append("path")
-                .datum(data2)
-                .attr("class", "lineG")
-                .attr("fill", "none")
-                .attr("stroke", '#198754')
-                .attr("opacity", '0.7')
-                .attr("stroke-width", 2)
-                .attr("d", lineAct);
-            svg.append("path")
-                .datum(data2)
-                .attr("class", "lineG")
-                .attr("fill", "none")
-                .attr("stroke", '#198754')
-                .attr("opacity", '0.7')
-                .attr("stroke-width", 2)
-                .attr("d", lineTemp);
-        }
-    }
 } 
 
 
 export function updateFocus(time) {
   if (!focusGroup) return;          
-    const hasPink  = map1.length   > 0;
-    const hasGreen = map2.length   > 0;
+    const hasPink  = map1.length > 0;
+    const hasGreen = map2.length > 0;
     const xLeft  = xScale(time);
     const xRight = xScale2(time);
     leftCursor
@@ -909,8 +870,6 @@ document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
         updateFocus(currTime); 
         const useZ     = document.getElementById('zscoreToggle').checked;
         renderScatterplot( filterByMinute(data, currTime, useZ), useZ );
-
-
     });
 });
 
@@ -921,10 +880,14 @@ dropboxSelect.addEventListener('change', () => {
     dropboxFiltering();
     renderLinePlot(data);
     const currTime = timeSlide.value();
-    updateFocus(currTime);
+    //updateFocus(currTime);
     const useZ = document.getElementById('zscoreToggle').checked;
     renderScatterplot( filterByMinute(data, currTime, useZ), useZ );
-
+    timeSlide
+        .min(startOfDay)
+        .max(endOfDay)
+    g.call(timeSlide);
+    updateFocus(timeSlide.value());  
 });
 
 function placeLabel(label, cx, cy, text, where){
@@ -938,19 +901,19 @@ function placeLabel(label, cx, cy, text, where){
 }
 
 d3.select('#resetZoom').on('click', () => {
-  // 1) clear the old SVGs
-  d3.select('#chart').selectAll('*').remove();
-  d3.select('#scatterplot').selectAll('*').remove();
+    // 1) clear the old SVGs
+    d3.select('#chart').selectAll('*').remove();
+    d3.select('#scatterplot').selectAll('*').remove();
 
-  renderLinePlot(data);                       
-  const useZ = document.getElementById('zscoreToggle').checked;
-  renderScatterplot(
-       filterByMinute(data, startOfDay, useZ), useZ
-  );
+    renderLinePlot(data);                       
+    const useZ = document.getElementById('zscoreToggle').checked;
+    renderScatterplot(
+        filterByMinute(data, startOfDay, useZ), useZ
+    );
 
-  timeSlide
-      .min(startOfDay)
-      .max(endOfDay)
-  g.call(timeSlide);
-  updateFocus(timeSlide.value());                   
+    timeSlide
+        .min(startOfDay)
+        .max(endOfDay)
+    g.call(timeSlide);
+    updateFocus(timeSlide.value());                   
 });
