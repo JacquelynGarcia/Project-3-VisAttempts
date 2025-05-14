@@ -1,5 +1,5 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
-import { timeSlide } from './slider.js'
+import { timeSlide, setSliderDomain } from './slider.js'
 export const startOfDay = new Date(2000, 0, 1, 0, 0);   // 00:00
 export const endOfDay = new Date(2000, 0, 1, 23, 59);   // 23:59
 
@@ -134,7 +134,7 @@ export function filterByMinute(data, dateVal, useZScore = false) {
 
 
 
-function filtering(data) {
+function filtering(data, startMin, endMin) {
     const femaleSelected = document.querySelectorAll('#mouse-selector input[type="checkbox"]');
     const femaleIds = [];
     femaleSelected.forEach(f => {
@@ -162,10 +162,10 @@ function filtering(data) {
     let line1 = [];
     let line2 = [];
     data.forEach((row) => {
-        if (femaleIds.includes(row.id) && line1Days.includes(row.days + 1)){
+        if (femaleIds.includes(row.id) && line1Days.includes(row.days + 1) && startMin <= row.minutes && endMin >= row.minutes){
             line1.push(row);
         }
-        if (femaleIds.includes(row.id) && line2Days.includes(row.days + 1)){
+        if (femaleIds.includes(row.id) && line2Days.includes(row.days + 1) && startMin <= row.minutes && endMin >= row.minutes){
             line2.push(row);
         }
     });
@@ -438,7 +438,10 @@ export function renderScatterplot([dots, uniqueMouseIds], useZScore) {
 }
 
 
-function renderLinePlot(data){
+function renderLinePlot(data, startMin = 0, startDate = startOfDay, endMin = 1439, endDate = endOfDay){
+    let originalData = data;
+    data = filtering(data, startMin, endMin);
+
     const width = 1000;
     const height = 500;
     const margin = { top: 40, right: 40, bottom: 40, left: 40 };
@@ -471,12 +474,124 @@ function renderLinePlot(data){
         width: (width / 2) - margin.left - margin.right,
         height: (height / 2) - margin.top - margin.bottom,
     };
+    const usableArea2 = {
+        top: margin.top,
+        right: width - margin.right,
+        bottom: height - margin.bottom,
+        left: (width / 2) + margin.left,
+        width: (width / 2) - margin.left - margin.right,
+        height: (height / 2) - margin.top - margin.bottom,
+    };
     xScale = d3
         .scaleTime()
-        .domain([startOfDay, endOfDay])
+        .domain([startDate, endDate])
         .range([usableArea.left, usableArea.right])
         .nice();
     yScale = d3.scaleLinear().domain([minAvgAct, maxAvgAct]).range([usableArea.bottom, usableArea.top]);
+    
+    const lineAct = d3.line()
+        .x(d => xScale(d.date))
+        .y(d => yScale(d.avg_act));
+    xScale2 = d3
+        .scaleTime()
+        .domain([startDate, endDate])
+        .range([usableArea2.left, usableArea2.right])
+        .nice();
+    yScale2 = d3
+        .scaleLinear()
+        .domain([minAvgTemp, maxAvgTemp])
+        .range([usableArea2.bottom, usableArea2.top]);
+    const lineTemp = d3.line()
+        .x(d => xScale2(d.date))
+        .y(d => yScale2(d.avg_temp));
+
+    function brushed(event) {
+        if (!event.selection) 
+            return;
+       
+        const [x0, x1] = event.selection;
+        const start = xScale.invert(x0);
+        const end = xScale.invert(x1);
+
+        let startingMin = start.getHours() * 60 + start.getMinutes();
+        let endingMin = end.getHours() * 60 + end.getMinutes();
+
+        let minMinute = d3.min(data[0], d => d.minutes);
+        let maxMinute = d3.max(data[0], d => d.minutes);
+        if (minMinute > startMin){
+            startingMin = minMinute;
+        }
+        if (maxMinute < endMin){
+            endingMin = maxMinute;
+        }
+        else if (endingMin === 0){
+            endingMin = maxMinute;
+        }
+
+        console.log(startingMin);
+        console.log(endingMin);
+        
+        d3.select("#chart").selectAll("*").remove();
+        renderLinePlot(originalData, startingMin, new Date(2000, 0, 1, 0, startingMin), endingMin, new Date(2000, 0, 1, 0, endingMin));
+
+        d3.select("#resetZoom").on("click", () => {
+            d3.select("#chart").selectAll("*").remove();
+            renderLinePlot(originalData);
+        });
+        const newStart = new Date(2000, 0, 1, 0, startingMin);
+        const newEnd   = new Date(2000, 0, 1, 0, endingMin);
+        setSliderDomain(newStart, newEnd);
+        updateFocus(timeSlide.value());
+
+
+    }
+
+    function brushed2(event) {
+        if (!event.selection) 
+            return;
+       
+        const [x0, x1] = event.selection;
+        const start = xScale2.invert(x0);
+        const end = xScale2.invert(x1);
+
+        let startingMin = start.getHours() * 60 + start.getMinutes();
+        let endingMin = end.getHours() * 60 + end.getMinutes();
+
+        let minMinute = d3.min(data[0], d => d.minutes);
+        let maxMinute = d3.max(data[0], d => d.minutes);
+        if (minMinute > startMin){
+            startingMin = minMinute;
+        }
+        if (maxMinute < endMin){
+            endingMin = maxMinute;
+        }
+        else if (endingMin === 0){
+            endingMin = maxMinute;
+        }
+
+
+        d3.select("#chart").selectAll("*").remove();
+        renderLinePlot(originalData, startingMin, new Date(2000, 0, 1, 0, startingMin), endingMin, new Date(2000, 0, 1, 0, endingMin));
+
+        d3.select("#resetZoom").on("click", () => {
+            d3.select("#chart").selectAll("*").remove();
+            renderLinePlot(originalData);
+        });
+
+        const newStart = new Date(2000, 0, 1, 0, startingMin);
+        const newEnd   = new Date(2000, 0, 1, 0, endingMin);
+        setSliderDomain(newStart, newEnd);
+        updateFocus(timeSlide.value());
+
+    }
+
+    const brush1 = d3.brushX()
+        .extent([[usableArea.left, usableArea.top], [usableArea.right, usableArea.bottom]])
+        .on("end", brushed);
+    svg.append("g")
+        .attr("class", "brush")
+        .call(brush1);
+    
     svg.append("g")
         .attr("transform", `translate(0,${usableArea.bottom})`)
         .call(d3.axisBottom(xScale).tickFormat(d3.timeFormat("%H:%M")));
@@ -503,24 +618,14 @@ function renderLinePlot(data){
         .style("font-weight", "bold")
         .text(`Average Activity Level By Time`);
 
-    const usableArea2 = {
-        top: margin.top,
-        right: width - margin.right,
-        bottom: height - margin.bottom,
-        left: (width / 2) + margin.left,
-        width: (width / 2) - margin.left - margin.right,
-        height: (height / 2) - margin.top - margin.bottom,
-    };
-    xScale2 = d3
-        .scaleTime()
-        .domain([startOfDay, endOfDay])
-        .range([usableArea2.left, usableArea2.right])
-        .nice();
 
-    yScale2 = d3
-        .scaleLinear()
-        .domain([minAvgTemp, maxAvgTemp])
-        .range([usableArea2.bottom, usableArea2.top]);
+    const brush2 = d3.brushX()
+        .extent([[usableArea2.left, usableArea2.top], [usableArea2.right, usableArea2.bottom]])
+        .on("end", brushed2);
+    svg.append("g")
+        .attr("class", "brush2")
+        .call(brush2);
+
     svg.append("g")
         .attr("transform", `translate(0,${usableArea2.bottom})`)
         .call(d3.axisBottom(xScale2).tickFormat(d3.timeFormat("%H:%M")));
@@ -567,70 +672,6 @@ function renderLinePlot(data){
             .attr("stroke", "rgba(0,0,0,0.1)") 
             .attr("stroke-width", 1)
     );
-    
-    const lineAct = d3.line()
-        .x(d => xScale(d.date))
-        .y(d => yScale(d.avg_act));
-    const lineTemp = d3.line()
-        .x(d => xScale2(d.date))
-        .y(d => yScale2(d.avg_temp));
-    
-    if (data[0].length !== 0){
-        svg.append("path")
-            .datum(data[0])
-            .attr("class", "line")
-            .attr("fill", "none")
-            .attr("stroke", '#ffb6c1')
-            .attr("opacity", '0.7')
-            .attr("stroke-width", 2)
-            .attr("d", lineAct)
-            .on("click", function(event, d) {
-                d3.selectAll(".line").attr("stroke-width", 2);
-                d3.select(this).raise().attr("stroke-width", 3);
-                focusGroup.raise();
-            });
-        svg.append("path")
-            .datum(data[0])
-            .attr("class", "line")
-            .attr("fill", "none")
-            .attr("stroke", '#ffb6c1')
-            .attr("opacity", 0.7)
-            .attr("stroke-width", 2)
-            .attr("d", lineTemp)
-            .on("click", function(event, d) {
-                d3.selectAll(".line").attr("stroke-width", 2);
-                d3.select(this).raise().attr("stroke-width", 3);
-                focusGroup.raise();
-            });
-    }
-    if (data[1].length !== 0){
-        svg.append("path")
-            .datum(data[1])
-            .attr("class", "line")
-            .attr("fill", "none")
-            .attr("stroke", '#198754')
-            .attr("opacity", '0.7')
-            .attr("stroke-width", 2)
-            .attr("d", lineAct)
-            .on("click", function(event, d) {
-                d3.selectAll(".line").attr("stroke-width", 2);
-                d3.select(this).raise().attr("stroke-width", 3);
-                focusGroup.raise();
-            });
-        svg.append("path")
-            .datum(data[1])
-            .attr("class", "line")
-            .attr("fill", "none")
-            .attr("stroke", '#198754')
-            .attr("opacity", '0.7')
-            .attr("stroke-width", 2)
-            .attr("d", lineTemp)
-            .on("click", function(event, d) {
-                d3.selectAll(".line").attr("stroke-width", 2);
-                d3.select(this).raise().attr("stroke-width", 3);
-                focusGroup.raise();
-            });
-    }
 
     focusGroup = svg.append("g").attr("class", "focus");
 
@@ -688,75 +729,123 @@ function renderLinePlot(data){
     tempLabel2 = focusGroup.append("text")
                 .attr("class","tooltip").style("font-size","10px")
                 .style("visibility","visible");
-    
-}
+
+    if (data[0].length !== 0){
+        svg.append("path")
+            .datum(data[0])
+            .attr("class", "lineP")
+            .attr("fill", "none")
+            .attr("stroke", '#ffb6c1')
+            .attr("opacity", '0.7')
+            .attr("stroke-width", 2)
+            .attr("d", lineAct);
+        svg.append("path")
+            .datum(data[0])
+            .attr("class", "lineP")
+            .attr("fill", "none")
+            .attr("stroke", '#ffb6c1')
+            .attr("opacity", 0.7)
+            .attr("stroke-width", 2)
+            .attr("d", lineTemp);
+    }
+
+    if (data[1].length !== 0){
+        svg.append("path")
+            .datum(data[1])
+            .attr("class", "lineG") // new change
+            .attr("fill", "none")
+            .attr("stroke", '#198754')
+            .attr("opacity", '0.7')
+            .attr("stroke-width", 2)
+            .attr("d", lineAct);
+        svg.append("path")
+            .datum(data[1])
+            .attr("class", "lineG") // new change
+            .attr("fill", "none")
+            .attr("stroke", '#198754')
+            .attr("opacity", '0.7')
+            .attr("stroke-width", 2)
+            .attr("d", lineTemp);
+    }
+
+    const pink = svg.selectAll('.lineP').on("click", function(event, d) {
+        d3.selectAll(".lineG").attr("stroke-width", 2);
+        d3.selectAll(".lineP").raise().attr("stroke-width", 3);
+    });
+
+    const green = svg.selectAll('.lineG').on("click", function(event, d) {
+            d3.selectAll(".lineP").attr("stroke-width", 2);
+            d3.selectAll(".lineG").raise().attr("stroke-width", 3);
+    });
+} 
+
 
 export function updateFocus(time) {
   if (!focusGroup) return;          
     const hasPink  = map1.length   > 0;
     const hasGreen = map2.length   > 0;
-  const xLeft  = xScale(time);
-  const xRight = xScale2(time);
-  leftCursor
-    .attr("x1", xLeft)
-    .attr("x2", xLeft);  
+    const xLeft  = xScale(time);
+    const xRight = xScale2(time);
+    leftCursor
+        .attr("x1", xLeft)
+        .attr("x2", xLeft);  
 
     rightCursor
-    .attr("x1", xRight)
-    .attr("x2", xRight);
+        .attr("x1", xRight)
+        .attr("x2", xRight);
 
  
-  const bisect = d3.bisector(d => d.date).left;
-  if (hasPink){
-  const i1   = bisect(map1, time, 1);
-  const dL   = map1[i1 - 1], dR = map1[i1] || dL;
-  const d    = (time - dL.date) < (dR.date - time) ? dL : dR;
+    const bisect = d3.bisector(d => d.date).left;
+    if (hasPink){
+    const i1   = bisect(map1, time, 1);
+    const dL   = map1[i1 - 1], dR = map1[i1] || dL;
+    const d    = (time - dL.date) < (dR.date - time) ? dL : dR;
 
-  const cxL = xLeft,  cyL = yScale(d.avg_act);
-  const cxR = xRight, cyR = yScale2(d.avg_temp);
+    const cxL = xLeft,  cyL = yScale(d.avg_act);
+    const cxR = xRight, cyR = yScale2(d.avg_temp);
 
-  actDot1 .attr("cx", cxL).attr("cy", cyL);
-  tempDot1.attr("cx", cxR).attr("cy", cyR);
+    actDot1 .attr("cx", cxL).attr("cy", cyL);
+    tempDot1.attr("cx", cxR).attr("cy", cyR);
 
-  placeLabel(actLabel1 , cxL, cyL,
-             d.avg_act.toFixed(1),               
-             hasGreen ? "bottom-right":"bottom-right");  
+    placeLabel(actLabel1 , cxL, cyL,
+                d.avg_act.toFixed(1),               
+                hasGreen ? "bottom-right":"bottom-right");  
 
-  placeLabel(tempLabel1, cxR, cyR,
-             d.avg_temp.toFixed(2) + "°C",
-             hasGreen ? "bottom-right":"bottom-right");
-} else {
-  actLabel1 .style("visibility","hidden");
-  tempLabel1.style("visibility","hidden");
-}
+    placeLabel(tempLabel1, cxR, cyR,
+                d.avg_temp.toFixed(2) + "°C",
+                hasGreen ? "bottom-right":"bottom-right");
+    } else {
+    actLabel1 .style("visibility","hidden");
+    tempLabel1.style("visibility","hidden");
+    }
 
 
-if (hasGreen){
-  const i2   = bisect(map2, time, 1);
-  const gL   = map2[i2 - 1], gR = map2[i2] || gL;
-  const g    = (time - gL.date) < (gR.date - time) ? gL : gR;
+    if (hasGreen){
+    const i2   = bisect(map2, time, 1);
+    const gL   = map2[i2 - 1], gR = map2[i2] || gL;
+    const g    = (time - gL.date) < (gR.date - time) ? gL : gR;
 
-  const cxL = xLeft,  cyL = yScale(g.avg_act);
-  const cxR = xRight, cyR = yScale2(g.avg_temp);
+    const cxL = xLeft,  cyL = yScale(g.avg_act);
+    const cxR = xRight, cyR = yScale2(g.avg_temp);
 
-  actDot2 .attr("cx", cxL).attr("cy", cyL);
-  tempDot2.attr("cx", cxR).attr("cy", cyR);
+    actDot2 .attr("cx", cxL).attr("cy", cyL);
+    tempDot2.attr("cx", cxR).attr("cy", cyR);
 
-  placeLabel(actLabel2 , cxL, cyL,
-             g.avg_act.toFixed(1),
-             hasPink ? "top-left":"bottom-right");   
-  placeLabel(tempLabel2, cxR, cyR,
-             g.avg_temp.toFixed(2) + "°C",
-             hasPink ? "top-left":"bottom-right");
-} else {
-  actLabel2 .style("visibility","hidden");
-  tempLabel2.style("visibility","hidden");
-}
+    placeLabel(actLabel2 , cxL, cyL,
+                g.avg_act.toFixed(1),
+                hasPink ? "top-left":"bottom-right");   
+    placeLabel(tempLabel2, cxR, cyR,
+                g.avg_temp.toFixed(2) + "°C",
+                hasPink ? "top-left":"bottom-right");
+    } else {
+    actLabel2 .style("visibility","hidden");
+    tempLabel2.style("visibility","hidden");
+    }
 }
 
 dropboxFiltering();
 export let data = await loadData();
-renderLinePlot(filtering(data));
+renderLinePlot(data);
 renderScatterplot(filterByMinute(data, startOfDay));
 
 const initDate = startOfDay;                                 // a Date(2000-01-01 00:00)
@@ -774,7 +863,7 @@ document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
         d3.select("#scatterplot").selectAll("*").remove();
         document.getElementById("dropbox-select").value = "o3";
         const currTime = timeSlide.value();
-        renderLinePlot(filtering(data));  
+        renderLinePlot(data);  
         updateFocus(currTime); 
         const useZ     = document.getElementById('zscoreToggle').checked;
         renderScatterplot( filterByMinute(data, currTime, useZ), useZ );
@@ -788,7 +877,7 @@ dropboxSelect.addEventListener('change', () => {
     d3.select("#chart").selectAll("*").remove();
     d3.select("#scatterplot").selectAll("*").remove();
     dropboxFiltering();
-    renderLinePlot(filtering(data));
+    renderLinePlot(data);
     const currTime = timeSlide.value();
     updateFocus(currTime);
     const useZ = document.getElementById('zscoreToggle').checked;

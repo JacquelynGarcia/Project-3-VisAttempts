@@ -31,6 +31,7 @@ function buildSlider () {
     .max(endOfDay)
     .step(60_000)                 // one-minute ticks
     .width(innerW)
+    
     .tickFormat(timeFmt)
     .ticks(8)
     .default(startOfDay)
@@ -60,3 +61,19 @@ zToggle.addEventListener('change', () => {
   d3.select('#scatterplot').selectAll('*').remove();
   renderScatterplot(filterByMinute(data, minute, useZ), useZ);
 });
+
+export function setSliderDomain(minDate, maxDate) {
+  timeSlide            
+    .min(minDate)
+    .max(maxDate);
+
+  
+  if (timeSlide.value() > minDate && timeSlide.value() > maxDate) {
+    timeSlide.value(maxDate);
+  }
+  else if (timeSlide.value() < minDate && timeSlide.value() < maxDate) {
+    timeSlide.value(minDate);
+  }
+
+  g.call(timeSlide);                           
+}
