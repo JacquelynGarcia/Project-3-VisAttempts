@@ -867,8 +867,12 @@ document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
         document.getElementById("dropbox-select").value = "o3";
         const currTime = timeSlide.value();
         renderLinePlot(data);  
+        timeSlide
+            .min(startOfDay)
+            .max(endOfDay)
+        g.call(timeSlide);
         updateFocus(currTime); 
-        const useZ     = document.getElementById('zscoreToggle').checked;
+        const useZ = document.getElementById('zscoreToggle').checked;
         renderScatterplot( filterByMinute(data, currTime, useZ), useZ );
     });
 });
@@ -880,7 +884,6 @@ dropboxSelect.addEventListener('change', () => {
     dropboxFiltering();
     renderLinePlot(data);
     const currTime = timeSlide.value();
-    //updateFocus(currTime);
     const useZ = document.getElementById('zscoreToggle').checked;
     renderScatterplot( filterByMinute(data, currTime, useZ), useZ );
     timeSlide
