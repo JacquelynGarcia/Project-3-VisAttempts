@@ -505,10 +505,14 @@ function renderLinePlot(data, startMin = 0, startDate = startOfDay, endMin = 143
         .x(d => xScale2(d.date))
         .y(d => yScale2(d.avg_temp));
 
+    let brushedOccurred = false;
+
     function brushed(event) {
         if (!event.selection) 
             return;
-       
+
+        brushedOccurred = true;
+
         const [x0, x1] = event.selection;
         const start = xScale.invert(x0);
         const end = xScale.invert(x1);
@@ -549,6 +553,8 @@ function renderLinePlot(data, startMin = 0, startDate = startOfDay, endMin = 143
     function brushed2(event) {
         if (!event.selection) 
             return;
+
+        brushedOccurred = true;
        
         const [x0, x1] = event.selection;
         const start = xScale2.invert(x0);
@@ -752,7 +758,7 @@ function renderLinePlot(data, startMin = 0, startDate = startOfDay, endMin = 143
     if (data[1].length !== 0){
         svg.append("path")
             .datum(data[1])
-            .attr("class", "lineG") // new change
+            .attr("class", "lineG")
             .attr("fill", "none")
             .attr("stroke", '#198754')
             .attr("opacity", '0.7')
@@ -760,7 +766,7 @@ function renderLinePlot(data, startMin = 0, startDate = startOfDay, endMin = 143
             .attr("d", lineAct);
         svg.append("path")
             .datum(data[1])
-            .attr("class", "lineG") // new change
+            .attr("class", "lineG")
             .attr("fill", "none")
             .attr("stroke", '#198754')
             .attr("opacity", '0.7')
@@ -777,6 +783,74 @@ function renderLinePlot(data, startMin = 0, startDate = startOfDay, endMin = 143
             d3.selectAll(".lineP").attr("stroke-width", 2);
             d3.selectAll(".lineG").raise().attr("stroke-width", 3);
     });
+
+    d3.select("#resetZoom").on("click", () => {
+        if (brushedOccurred) {
+            xScale.domain([startOfDay, endOfDay]);
+            xScale2.domain([startOfDay, endOfDay]);
+
+            svg.selectAll(".lineP").remove();
+            svg.selectAll(".lineG").remove();
+            svg.selectAll(".x-axis").remove();
+
+            drawLines(originalData[0], originalData[1]);
+
+            svg.append("g")
+                .attr("class", "x-axis")
+                .attr("transform", `translate(0,${usableArea.bottom})`)
+                .call(d3.axisBottom(xScale).tickFormat(d3.timeFormat("%H:%M")));
+
+            svg.append("g")
+                .attr("class", "x-axis")
+                .attr("transform", `translate(0,${usableArea2.bottom})`)
+                .call(d3.axisBottom(xScale2).tickFormat(d3.timeFormat("%H:%M")));
+
+            svg.select(".brush").call(brush1.move, null);
+            svg.select(".brush2").call(brush2.move, null);
+
+            brushedOccurred = false;
+        }
+    });
+
+    function drawLines(data1, data2) {
+        if (data1.length !== 0){
+            svg.append("path")
+                .datum(data1)
+                .attr("class", "lineP")
+                .attr("fill", "none")
+                .attr("stroke", '#ffb6c1')
+                .attr("opacity", '0.7')
+                .attr("stroke-width", 2)
+                .attr("d", lineAct);
+            svg.append("path")
+                .datum(data1)
+                .attr("class", "lineP")
+                .attr("fill", "none")
+                .attr("stroke", '#ffb6c1')
+                .attr("opacity", 0.7)
+                .attr("stroke-width", 2)
+                .attr("d", lineTemp);
+        }
+
+        if (data2.length !== 0){
+            svg.append("path")
+                .datum(data2)
+                .attr("class", "lineG")
+                .attr("fill", "none")
+                .attr("stroke", '#198754')
+                .attr("opacity", '0.7')
+                .attr("stroke-width", 2)
+                .attr("d", lineAct);
+            svg.append("path")
+                .datum(data2)
+                .attr("class", "lineG")
+                .attr("fill", "none")
+                .attr("stroke", '#198754')
+                .attr("opacity", '0.7')
+                .attr("stroke-width", 2)
+                .attr("d", lineTemp);
+        }
+    }
 } 
 
 
@@ -841,6 +915,7 @@ export function updateFocus(time) {
     actLabel2 .style("visibility","hidden");
     tempLabel2.style("visibility","hidden");
     }
+    
 }
 
 dropboxFiltering();
