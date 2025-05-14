@@ -1,5 +1,5 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
-import { timeSlide, setSliderDomain } from './slider.js'
+import { timeSlide, setSliderDomain, g} from './slider.js'
 export const startOfDay = new Date(2000, 0, 1, 0, 0);   // 00:00
 export const endOfDay = new Date(2000, 0, 1, 23, 59);   // 23:59
 
@@ -538,10 +538,7 @@ function renderLinePlot(data, startMin = 0, startDate = startOfDay, endMin = 143
         d3.select("#chart").selectAll("*").remove();
         renderLinePlot(originalData, startingMin, new Date(2000, 0, 1, 0, startingMin), endingMin, new Date(2000, 0, 1, 0, endingMin));
 
-        d3.select("#resetZoom").on("click", () => {
-            d3.select("#chart").selectAll("*").remove();
-            renderLinePlot(originalData);
-        });
+       
         const newStart = new Date(2000, 0, 1, 0, startingMin);
         const newEnd   = new Date(2000, 0, 1, 0, endingMin);
         setSliderDomain(newStart, newEnd);
@@ -579,11 +576,7 @@ function renderLinePlot(data, startMin = 0, startDate = startOfDay, endMin = 143
         d3.select("#chart").selectAll("*").remove();
         renderLinePlot(originalData, startingMin, new Date(2000, 0, 1, 0, startingMin), endingMin, new Date(2000, 0, 1, 0, endingMin));
 
-        d3.select("#resetZoom").on("click", () => {
-            d3.select("#chart").selectAll("*").remove();
-            renderLinePlot(originalData);
-        });
-
+        
         const newStart = new Date(2000, 0, 1, 0, startingMin);
         const newEnd   = new Date(2000, 0, 1, 0, endingMin);
         setSliderDomain(newStart, newEnd);
@@ -784,33 +777,7 @@ function renderLinePlot(data, startMin = 0, startDate = startOfDay, endMin = 143
             d3.selectAll(".lineG").raise().attr("stroke-width", 3);
     });
 
-    d3.select("#resetZoom").on("click", () => {
-        if (brushedOccurred) {
-            xScale.domain([startOfDay, endOfDay]);
-            xScale2.domain([startOfDay, endOfDay]);
-
-            svg.selectAll(".lineP").remove();
-            svg.selectAll(".lineG").remove();
-            svg.selectAll(".x-axis").remove();
-
-            drawLines(originalData[0], originalData[1]);
-
-            svg.append("g")
-                .attr("class", "x-axis")
-                .attr("transform", `translate(0,${usableArea.bottom})`)
-                .call(d3.axisBottom(xScale).tickFormat(d3.timeFormat("%H:%M")));
-
-            svg.append("g")
-                .attr("class", "x-axis")
-                .attr("transform", `translate(0,${usableArea2.bottom})`)
-                .call(d3.axisBottom(xScale2).tickFormat(d3.timeFormat("%H:%M")));
-
-            svg.select(".brush").call(brush1.move, null);
-            svg.select(".brush2").call(brush2.move, null);
-
-            brushedOccurred = false;
-        }
-    });
+    
 
     function drawLines(data1, data2) {
         if (data1.length !== 0){
@@ -969,3 +936,21 @@ function placeLabel(label, cx, cy, text, where){
     }
     label.text(text).style("visibility","visible");
 }
+
+d3.select('#resetZoom').on('click', () => {
+  // 1) clear the old SVGs
+  d3.select('#chart').selectAll('*').remove();
+  d3.select('#scatterplot').selectAll('*').remove();
+
+  renderLinePlot(data);                       
+  const useZ = document.getElementById('zscoreToggle').checked;
+  renderScatterplot(
+       filterByMinute(data, startOfDay, useZ), useZ
+  );
+
+  timeSlide
+      .min(startOfDay)
+      .max(endOfDay)
+  g.call(timeSlide);
+  updateFocus(timeSlide.value());                   
+});

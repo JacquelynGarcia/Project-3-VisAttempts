@@ -19,11 +19,11 @@ const svg = d3.select(wrapper)
   .attr('width', '100%')    
   .attr('height', 65);
 
-const g = svg.append('g').attr('transform', 'translate(30,30)');
+export const g = svg.append('g').attr('transform', 'translate(30,30)');
 
 export let timeSlide;
 
-function buildSlider () {
+export function buildSlider () {
   const innerW = wrapper.clientWidth - 60;  // 30 px L + R margin
 
   timeSlide = sliderBottom()
