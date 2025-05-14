@@ -646,3 +646,21 @@ footer {
     width: 100%;          /* let the browser scale the SVG */
     height: 65px;         /* keep the knob easy to grab   */
 }
+
+#resetZoom {
+    background-color: #E0F2F7;
+    color: #29B6F6;
+    padding: 10px 20px;
+    border: 1px solid #29B6F6;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+#resetZoom:hover {
+    background-color: #29B6F6;
+    color: #FFFFFF;
+    border-color: #03A9F4;
+}
